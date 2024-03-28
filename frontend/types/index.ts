@@ -1,4 +1,9 @@
 import { StaticImageData } from "next/image";
+import { ReactNode } from "react";
+
+export interface ChildrenProps {
+  children: ReactNode;
+}
 
 export type NavlinksProps = {
   id: number;
@@ -95,4 +100,13 @@ export interface FormProps {
   vehicle: string;
   notes: string;
   reply_to: string;
+}
+
+export interface CreateAccountWithUsProps {
+  name: string;
+  business_name: string;
+  email: string;
+  phone: string;
+  rides: string;
+  notes?: string;
 }

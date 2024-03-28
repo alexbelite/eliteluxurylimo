@@ -2,11 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import private_driver from "@/public/private_driver.png";
 import Reviews from "@/components/Reviews";
-import Blog from "./../components/Blog";
+import Blog from "@/components/Blog";
 import ad from "@/public/adpicture.jpg";
 import HomeBanner from "@/components/HomeBanner";
 import HeaderTitle from "@/components/HeaderTitle";
-import Testimonals from "./../components/Testimonals";
+import Testimonals from "@/components/Testimonals";
+
 export default function Home() {
   return (
     <>
@@ -18,7 +19,8 @@ export default function Home() {
             <HeaderTitle />
             <Link
               href="/reservation"
-              className="px-12 py-4 bg-[#afa581] font-semibold text-lg rounded-sm text-white">
+              className="px-12 py-4 bg-[#afa581] font-semibold text-lg rounded-sm text-white"
+            >
               Make a Reservation
             </Link>
           </div>
@@ -40,7 +42,8 @@ export default function Home() {
           <div className="container mx-auto h-full flex flex-col  max-sm:gap-1 gap-2 items-start justify-around">
             <h3
               id="contactusform"
-              className="font-space max-sm:text-xl max-md:text-3xl max-lg:text-4xl lg:text-5xl leading-10 non-italic font-medium">
+              className="font-space max-sm:text-xl max-md:text-3xl max-lg:text-4xl lg:text-5xl leading-10 non-italic font-medium"
+            >
               Who Are we
             </h3>
             <p className="max-sm:text-[14px]">
@@ -53,13 +56,14 @@ export default function Home() {
               We are Exceptional <br /> Private Drivers
             </h1>
             <p className="font-inter max-sm:text-[14px] lg:text-lg">
-              All our drivers are professionally licensed chauffeur with years
+              All our drivers are professionally licensed chauffeurs with years
               of experience delivering unapparelled service where compromise
               doesn&apos;t exist. We love what we do!
             </p>
             <Link
               href="/contact-us"
-              className="px-4 py-2 bg-[#afa581] font-semibold text-md rounded-sm text-white">
+              className="px-4 py-2 bg-[#afa581] font-semibold text-md rounded-sm text-white"
+            >
               Contact Us
             </Link>
           </div>

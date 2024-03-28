@@ -1,14 +1,14 @@
-import { Metadata } from 'next'
+import { Metadata } from "next";
 import private_driver from "@/public/corporate page pic 03142024 three.jpg";
-import corp2 from '@/public/createaccountcorp.jpg'
+import corp2 from "@/public/createaccountcorp.jpg";
 import Image from "next/image";
 import ad from "@/public/corporation_banner.jpg";
 import React from "react";
 import CorporationsForm from "@/components/corporations-form";
 
 export const metadata: Metadata = {
-  title: 'Corporations',
-}
+  title: "Corporations",
+};
 
 export default function CorporationsPage() {
   return (
@@ -67,7 +67,7 @@ export default function CorporationsPage() {
         </div>
         <div className=" w-2/5 h-full flex justify-center items-center max-sm:h-1/2 max-sm:w-full">
           <div className="container mx-auto h-full flex justify-center items-center  max-sm:gap-1 gap-2">
-            <CorporationsForm/>
+            <CorporationsForm />
           </div>
         </div>
       </section>
