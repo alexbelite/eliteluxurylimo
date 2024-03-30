@@ -1,15 +1,20 @@
 "use client";
-import React, { useState, useEffect, useMemo } from 'react';
-import { GoogleMap, useJsApiLoader, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
-import { RootState } from '@/types';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  DirectionsService,
+  DirectionsRenderer,
+} from "@react-google-maps/api";
+import { RootState } from "@/types";
+import { useSelector } from "react-redux";
 
 export default function Map() {
   const reduxLocation = useSelector((state: RootState) => state.map.location);
   const reduxLocationB = useSelector((state: RootState) => state.map.locationB);
   const containerStyle = {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   };
 
   const center = {
@@ -18,7 +23,7 @@ export default function Map() {
   };
 
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
+    id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
   });
 
@@ -26,13 +31,24 @@ export default function Map() {
 
   const fetchDirections = useMemo(() => {
     return () => {
-      if (reduxLocation.lat !== null && reduxLocation.lng !== null && reduxLocationB.lat !== null && reduxLocationB.lng !== null) {
-        const destination = new google.maps.LatLng(reduxLocationB.lat, reduxLocationB.lng);
+      if (
+        reduxLocation.lat !== null &&
+        reduxLocation.lng !== null &&
+        reduxLocationB.lat !== null &&
+        reduxLocationB.lng !== null
+      ) {
+        const destination = new google.maps.LatLng(
+          reduxLocationB.lat,
+          reduxLocationB.lng
+        );
 
         const directionsService = new google.maps.DirectionsService();
         directionsService.route(
           {
-            origin: new google.maps.LatLng(reduxLocation.lat, reduxLocation.lng),
+            origin: new google.maps.LatLng(
+              reduxLocation.lat,
+              reduxLocation.lng
+            ),
             destination: destination,
             travelMode: google.maps.TravelMode.DRIVING,
           },
@@ -46,7 +62,12 @@ export default function Map() {
         );
       }
     };
-  }, [reduxLocation.lat, reduxLocation.lng,reduxLocationB.lat, reduxLocationB.lng]);
+  }, [
+    reduxLocation.lat,
+    reduxLocation.lng,
+    reduxLocationB.lat,
+    reduxLocationB.lng,
+  ]);
 
   useEffect(() => {
     fetchDirections();
