@@ -44,16 +44,17 @@ export default function Home() {
               id="contactusform"
               className="font-space max-sm:text-xl max-md:text-3xl max-lg:text-4xl lg:text-5xl leading-10 non-italic font-medium"
             >
-              Who Are we
+              Who Are We
             </h3>
             <p className="max-sm:text-[14px]">
-              We set the benchmark when it comes to client service coupled with
-              the best fleet in the industry. We are family owned and locally
-              operated and deeply rooted in tradition where integrity and
-              reliability resonate throughout the organization.
+              We set the benchmark when it comes to safety, reliability, and
+              client service coupled with the best fleet in the industry. We are
+              family owned, locally operated, and deeply rooted in tradition
+              where integrity and reliability resonate throughout the
+              organization.
             </p>
             <h1 className="font-space max-sm:text-xl max-md:text-3xl max-lg:text-4xl lg:text-5xl leading-10 non-italic font-medium">
-              We are Exceptional <br /> Private Drivers
+              We Are Exceptional <br /> Private Drivers
             </h1>
             <p className="font-inter max-sm:text-[14px] lg:text-lg">
               All our drivers are professionally licensed chauffeurs with years
