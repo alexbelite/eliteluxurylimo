@@ -9,6 +9,7 @@ export type NavlinksProps = {
   id: number;
   label: string;
   href: string;
+  section?: string;
 };
 
 export interface LocationClickedEvent {
@@ -109,4 +110,21 @@ export interface CreateAccountWithUsProps {
   phone: string;
   rides: string;
   notes?: string;
+}
+
+export interface LoginProps {
+  email: string;
+  password: string;
+}
+
+export interface UserProps {
+  [key: string]: string;
+}
+
+export interface EditProfileProps {
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile: string;
+  [key: string]: string;
 }

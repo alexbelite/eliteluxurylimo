@@ -2,12 +2,12 @@ import { NavlinksProps, AiportProps, ReviewProps } from "@/types";
 
 import image1 from "@/public/image_1.png";
 import image2 from "@/public/image_2.png";
-import image3 from "@/public/purplegirl.jpg";
+import image3 from "@/public/purplegirl.png";
 
 export const navlinks: NavlinksProps[] = [
   { id: 1, label: "Home", href: "/" },
-  { id: 2, label: "Reservation", href: "/reservation/" },
-  { id: 3, label: "Services", href: "#services" },
+  { id: 2, label: "Reservation", href: "/reservation" },
+  { id: 3, label: "Services", href: "/", section: "services" },
   { id: 4, label: "Corporations", href: "/corporations" },
   { id: 5, label: "Contact Us", href: "/contact-us" },
 ];

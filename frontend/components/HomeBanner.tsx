@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { EmblaOptionsType } from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 import imageByIndex from "@/utils";
 import Image from "next/image";
+
 export default function HomeBanner() {
   const options: EmblaOptionsType = {
     align: "start",
@@ -12,14 +13,10 @@ export default function HomeBanner() {
   };
   const SLIDE_COUNT = 3;
   const slides = Array.from(Array(SLIDE_COUNT).keys());
-  type PropType = {
-    slides: number[];
-    options?: EmblaOptionsType;
-  };
 
-  const [emblaRef] = useEmblaCarousel(options, [
+  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
     Autoplay({
-      delay: 2000,
+      delay: 3000,
       stopOnInteraction: false,
       stopOnMouseEnter: true,
     }),

@@ -4,7 +4,7 @@ import "./globals.css";
 import Providers from "@/providers";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Script from "next/script";
+import { Toaster } from "react-hot-toast";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -160,20 +160,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        {/* <Script
-          async
-          defer
-          src={`https://maps.googleapis.com/maps/api/js?key=${
-            process.env.NEXT_PUBLIC_MAPS_API_KEY as string
-          }&libraries=places`}
-        /> */}
-      </head>
+      <head></head>
       <body className={inter.className}>
         <Providers>
           <Header />
           <main>{children}</main>
           <Footer />
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            toastOptions={{
+              className: "!bg-slate-700 !text-white",
+            }}
+          />
         </Providers>
       </body>
     </html>
