@@ -6,8 +6,8 @@ export const scrollTo = (sectionName: string | null | undefined) => {
   if (sectionName) {
     setTimeout(() => {
       scroller.scrollTo(sectionName, {
-        duration: 2000,
-        delay: 300,
+        duration: 1500,
+        delay: 500,
         smooth: true,
       });
     }, 500);

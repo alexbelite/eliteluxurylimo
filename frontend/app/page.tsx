@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import private_driver from "@/public/private_driver.png";
+import WhoWeAre from "@/public/whoWeAre.jpeg";
 import Reviews from "@/components/Reviews";
 import Blog from "@/components/Blog";
 import ad from "@/public/adpicture.jpg";
@@ -30,7 +30,7 @@ export default function Home() {
         <div className="h-1/2 relative max-sm:h-1/2 max-sm:w-full max-md:w-1/2 max-md:h-full max-lg:w-1/2 max-lg:h-full lg:w-1/2 lg:h-full">
           <Image
             sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33.3vw, 100vw"
-            src={private_driver}
+            src={WhoWeAre}
             quality={100}
             alt="order driver"
             fill
