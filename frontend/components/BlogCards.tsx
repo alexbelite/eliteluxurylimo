@@ -13,20 +13,24 @@ export default function BlogCards({
         <Card
           id={el.id}
           key={index}
-          className="scroll-mt-10 w-full bg-black text-white "
+          className="scroll-mt-10 w-full bg-black text-white"
           radius="none"
           shadow="none"
           {...props}
         >
-          <CardBody className="flex max-lg:flex-col gap-2 flex-wrap p-0 sm:flex-nowrap">
+          <CardBody
+            className={`flex ${
+              index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+            } items-center p-0 `}
+          >
             <Image
               radius="none"
               removeWrapper
               alt={el.label}
-              className=" max-md:h-[450px] w-full flex-none object-contain h-[450px] object-center"
+              className=" w-full md:w-1/2 flex-none object-contain object-center"
               src={el.image.toString()}
             />
-            <div className="px-4 py-5">
+            <div className="px-4 py-5 w-full md:w-1/2">
               <h3 className="text-large font-medium">{el.label}</h3>
               <div className="flex flex-col gap-3 pt-2 text-small text-default-400">
                 <p>{el.description}</p>
