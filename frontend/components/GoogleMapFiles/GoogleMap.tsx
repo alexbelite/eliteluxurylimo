@@ -1,55 +1,76 @@
 "use client";
 import React, { useState, useEffect, useMemo } from "react";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  DirectionsService,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
-import { RootState } from "@/types";
-import { useSelector } from "react-redux";
+import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api";
 
-export default function Map() {
-  const reduxLocation = useSelector((state: RootState) => state.map.location);
-  const reduxLocationB = useSelector((state: RootState) => state.map.locationB);
+export default function Map({
+  startLocation,
+  endLocation,
+  stops,
+  isLoaded,
+}: {
+  startLocation?: any;
+  endLocation?: any;
+  stops?: any;
+  isLoaded: boolean;
+}) {
   const containerStyle = {
     width: "100%",
     height: "100%",
   };
 
   const center = {
-    lat: reduxLocation.lat || 41.888906572566796,
-    lng: reduxLocation.lng || -87.6264612342834,
+    lat: 41.888906572566796,
+    lng: -87.6264612342834,
   };
-
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
-  });
 
   const [directions, setDirections] = useState(null);
 
   const fetchDirections = useMemo(() => {
     return () => {
-      if (
-        reduxLocation.lat !== null &&
-        reduxLocation.lng !== null &&
-        reduxLocationB.lat !== null &&
-        reduxLocationB.lng !== null
-      ) {
+      if (startLocation && endLocation) {
+        const startCoordinates = startLocation.geometry
+          ? {
+              lat: startLocation.geometry.location.lat(),
+              lng: startLocation.geometry.location.lng(),
+            }
+          : {
+              lat: startLocation.lat,
+              lng: startLocation.lng,
+            };
+        const endCoordinates = endLocation.geometry
+          ? {
+              lat: endLocation.geometry.location.lat(),
+              lng: endLocation.geometry.location.lng(),
+            }
+          : {
+              lat: endLocation.lat,
+              lng: endLocation.lng,
+            };
+
         const destination = new google.maps.LatLng(
-          reduxLocationB.lat,
-          reduxLocationB.lng
+          endCoordinates.lat,
+          endCoordinates.lng
         );
 
         const directionsService = new google.maps.DirectionsService();
         directionsService.route(
           {
             origin: new google.maps.LatLng(
-              reduxLocation.lat,
-              reduxLocation.lng
+              startCoordinates.lat,
+              startCoordinates.lng
             ),
             destination: destination,
+            waypoints: stops.map((stop: any) =>
+              stop.data?.geometry
+                ? {
+                    location: new google.maps.LatLng(
+                      stop.data.geometry.location.lat(),
+                      stop.data.geometry.location.lng()
+                    ),
+                    stopover: true,
+                  }
+                : {}
+            ),
             travelMode: google.maps.TravelMode.DRIVING,
           },
           (result: any, status) => {
@@ -62,16 +83,11 @@ export default function Map() {
         );
       }
     };
-  }, [
-    reduxLocation.lat,
-    reduxLocation.lng,
-    reduxLocationB.lat,
-    reduxLocationB.lng,
-  ]);
+  }, [startLocation, endLocation, stops]);
 
   useEffect(() => {
     fetchDirections();
-  }, [fetchDirections]);
+  }, [fetchDirections, startLocation, endLocation, stops]);
 
   function locationClicked(event: google.maps.MapMouseEvent) {
     console.log(event?.latLng?.lat());

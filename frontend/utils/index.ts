@@ -78,15 +78,15 @@ export const airports: AiportProps[] = [
     key: "coleman",
     name: "B. Coleman Aviation",
     address: "5701 Industrial Hwy, Gary, IN 46406",
-    lat: 41.6011247,
-    lng: -87.4237198,
+    lat: 41.61765118035516,
+    lng: -87.40652558994462,
   },
   {
     key: "atlantic",
     name: "Atlantic Aviation MDW",
     address: "6150 S Laramie Ave, Chicago, IL 60638",
-    lat: 41.78060280512733,
-    lng: -87.75312147827148,
+    lat: 41.78079148017956,
+    lng: -87.75306000408798,
   },
   {
     key: "signatureord",
@@ -128,5 +128,24 @@ export const reviews: ReviewProps[] = [
     label: "Fastest Route Guarantee",
     description:
       "All of our vehicles are equipped with the latest state of the art navigation systems with real time weather and traffic data. This enables our drivers to execute the fastest and best route avoiding delays.",
+  },
+];
+
+export const Services = [
+  {
+    value: "to_airport",
+    label: "To Airport",
+  },
+  {
+    value: "from_airport",
+    label: "From Airport",
+  },
+  {
+    value: "point_to_point",
+    label: "Point-to-Point Transfer",
+  },
+  {
+    value: "hourly_charter",
+    label: "Hourly Charter",
   },
 ];
