@@ -77,3 +77,9 @@ export async function sendCreateAccountData(data) {
     { publicKey: "sM37gZ0m6VgAVXPw9" }
   );
 }
+
+export async function sendTripDataToAdmin(data) {
+  return emailjs.send("service_neww707", "template_wh5tkhz", data, {
+    publicKey: "sM37gZ0m6VgAVXPw9",
+  });
+}

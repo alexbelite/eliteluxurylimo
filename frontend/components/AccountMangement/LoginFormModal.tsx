@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import {
   Modal,
   ModalContent,
@@ -22,7 +22,11 @@ import { useAppDispatch } from "@/store/hooks";
 import { setUser } from "@/store/userSlice";
 import toast from "react-hot-toast";
 
-export default function LoginFormModal() {
+export default function LoginFormModal({
+  buttonLabel,
+}: {
+  buttonLabel?: string | ReactNode;
+}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const dispatch = useAppDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -79,12 +83,12 @@ export default function LoginFormModal() {
         onPress={onOpen}
         className="max-w-fit text-lg md:text-[1rem] justify-start px-2 md:px-1 bg-transparent"
       >
-        Login
+        {buttonLabel ? buttonLabel : "Login"}
       </Button>
       <Modal
         isOpen={isOpen}
         placement="center"
-        className="bg-[#888]"
+        className="bg-[#fff]"
         onOpenChange={onOpenChange}
       >
         <ModalContent>

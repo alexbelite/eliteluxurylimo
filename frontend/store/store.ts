@@ -14,10 +14,12 @@ import { configureStore } from "@reduxjs/toolkit";
 import session from "redux-persist/lib/storage/session";
 import googleMapSlice from "./googleMapSlice";
 import UserReducer from "@/store/userSlice";
+import ReservationFormReducer from "@/store/ReservationFormSlice";
 
 const rootReducer = combineReducers({
   map: googleMapSlice,
   user: UserReducer,
+  reservationForm: ReservationFormReducer,
 });
 
 const persistConfig = {
@@ -31,10 +33,10 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-      // serializableCheck: false,
+      // serializableCheck: {
+      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      // },
+      serializableCheck: false,
       devTools: true,
     }),
   devTools: true,

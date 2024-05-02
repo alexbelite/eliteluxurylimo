@@ -24,16 +24,17 @@ import logo from "@/public/croplogo.png";
 import Image from "next/image";
 import { scrollTo } from "@/utils/CommonFunctions";
 import LoginFormModal from "./AccountMangement/LoginFormModal";
-import { useAppSelector } from "@/store/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { getUser, resetUser } from "@/store/userSlice";
 import EditProfileModal from "./AccountMangement/EditProfileModal";
 import { MdEdit } from "react-icons/md";
+import { resetReservationForm } from "@/store/ReservationFormSlice";
 
 export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const userData = useAppSelector(getUser);
-
+  const dispatch = useAppDispatch();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
@@ -94,6 +95,12 @@ export default function Header() {
                     router.push(el.href);
                     if (el.section) {
                       scrollTo(el.section);
+                    }
+                    if (
+                      el.label === "Reservation" &&
+                      pathname !== "/reservation"
+                    ) {
+                      dispatch(resetReservationForm());
                     }
                     toggleMenu();
                   }}
@@ -160,6 +167,12 @@ export default function Header() {
                 className={"text-white"}
                 onClick={() => {
                   router.push(el.href);
+                  if (
+                    el.label === "Reservation" &&
+                    pathname !== "/reservation"
+                  ) {
+                    dispatch(resetReservationForm());
+                  }
                   if (el.section) {
                     scrollTo(el.section);
                   }

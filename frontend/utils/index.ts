@@ -4,6 +4,9 @@ import image1 from "@/public/image_1.png";
 import image2 from "@/public/image_2.png";
 import image3 from "@/public/purplegirl.png";
 
+// Maps Library constants
+export const GOOGLE_MAPS_LIBRARIES: any = ["places"];
+
 export const navlinks: NavlinksProps[] = [
   { id: 1, label: "Home", href: "/" },
   { id: 2, label: "Reservation", href: "/reservation" },
@@ -16,7 +19,88 @@ export const images: any[] = [image1, image2, image3];
 const imageByIndex = (index: number): string => images[index % images.length];
 
 export default imageByIndex;
-
+export const VehiclesData = [
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=1479782",
+    name: "Sedan",
+    type: "sedan",
+    passengers: 2,
+    luggage: 3,
+    isQuote: false,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=2450684",
+    name: "SUV",
+    type: "suv",
+    passengers: 6,
+    luggage: 6,
+    isQuote: false,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=1582303",
+    name: "Mercedes S/BMW 7/Audi A8",
+    type: "luxury_sedan",
+    passengers: 2,
+    luggage: 3,
+    isQuote: true,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=2670745",
+    name: "Executive Sprinter Van",
+    type: "van",
+    passengers: 13,
+    luggage: 13,
+    isQuote: true,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=1995312",
+    name: "22 Passenger Minibus",
+    type: "minibus",
+    passengers: 22,
+    luggage: 22,
+    isQuote: true,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=2702915",
+    name: "28 Passenger Minibus",
+    type: "minibus",
+    passengers: 28,
+    luggage: 28,
+    isQuote: true,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=2702915",
+    name: "28 Passenger Minibus",
+    type: "minibus",
+    passengers: 28,
+    luggage: 28,
+    isQuote: true,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=750878",
+    name: "38 Passenger Minibus",
+    type: "minibus",
+    passengers: 38,
+    luggage: 38,
+    isQuote: true,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=1224734",
+    name: "Motor Coach",
+    type: "coach",
+    passengers: 56,
+    luggage: 56,
+    isQuote: true,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=1995312",
+    name: "Party Bus",
+    type: "party_bus",
+    passengers: 16,
+    luggage: 0,
+    isQuote: true,
+  },
+];
 export const vehicles: any[] = [
   {
     image:

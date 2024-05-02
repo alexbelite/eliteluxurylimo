@@ -1,6 +1,6 @@
 import { TextField } from "@mui/material";
 import { StandaloneSearchBox } from "@react-google-maps/api";
-import React, { RefObject, useState } from "react";
+import React, { useState } from "react";
 
 const GoogleSearchBox = ({
   isLoaded,
@@ -15,6 +15,7 @@ const GoogleSearchBox = ({
   const onSBLoad = (ref: any) => {
     setSearchBox(ref);
   };
+
   return (
     <>
       {isLoaded && (
