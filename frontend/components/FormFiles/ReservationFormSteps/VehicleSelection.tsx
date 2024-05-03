@@ -1,13 +1,24 @@
-import { VehiclesData } from "@/utils";
-import { Grid } from "@mui/material";
-import Image from "next/image";
+// React Imports
 import React from "react";
+
+// Next Imports
+import Image from "next/image";
+
+// UI Imports
+import { Grid } from "@mui/material";
+
+// Third part Imports
+import { useSelector } from "react-redux";
+import { useFormContext } from "react-hook-form";
+
+// Utils Imports
+import { calculateCharge } from "@/utils/CommonFunctions";
+import { VehiclesData } from "@/utils";
+
+// Icon imports
 import { TiArrowBack } from "react-icons/ti";
 import { FaUser } from "react-icons/fa";
 import { BsSuitcaseFill } from "react-icons/bs";
-import { calculateCharge } from "@/utils/CommonFunctions";
-import { useSelector } from "react-redux";
-import { useFormContext } from "react-hook-form";
 import { FiClock } from "react-icons/fi";
 
 const VehicleSelection = ({

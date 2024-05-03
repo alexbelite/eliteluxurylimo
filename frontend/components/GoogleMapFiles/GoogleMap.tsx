@@ -1,6 +1,12 @@
 "use client";
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+
+// React Imports
+import React, { useState, useEffect, useMemo } from "react";
+
+// Third party Imports
 import { GoogleMap, DirectionsRenderer } from "@react-google-maps/api";
+
+// Redux Imports
 import { useAppDispatch } from "@/store/hooks";
 import { setDirectionsData } from "@/store/ReservationFormSlice";
 

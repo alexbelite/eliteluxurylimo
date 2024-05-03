@@ -1,18 +1,29 @@
-import dayjs from "dayjs";
-import Image from "next/image";
+// React Imports
 import React from "react";
+
+// Next Imports
+import Image from "next/image";
+
+// UI Imports
+import { Grid, MenuItem, Select, TextField } from "@mui/material";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { MobileTimePicker } from "@mui/x-date-pickers";
+
+// UI Components Imports
+import { ErrorMessage } from "@/components/FormFiles/ErrorMessage";
+
+// Third part Imports
+import dayjs from "dayjs";
+import { Controller, useFormContext } from "react-hook-form";
+import { addHours } from "date-fns";
+
+// Icon imports
 import { FaUser } from "react-icons/fa";
 import { TiArrowBack } from "react-icons/ti";
 import { BsSuitcaseFill } from "react-icons/bs";
 import { FaLocationDot, FaPerson } from "react-icons/fa6";
-import { Controller, useFormContext } from "react-hook-form";
-import { Grid, MenuItem, Select, TextField } from "@mui/material";
-import { ErrorMessage } from "@/components/FormFiles/ErrorMessage";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { addHours } from "date-fns";
-import { MobileTimePicker } from "@mui/x-date-pickers";
 import { FaAngleRight } from "react-icons/fa6";
 
 const TripSummary = ({

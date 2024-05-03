@@ -1,6 +1,11 @@
-import { TextField } from "@mui/material";
-import { StandaloneSearchBox } from "@react-google-maps/api";
+// React Imports
 import React, { useState } from "react";
+
+// UI Imports
+import { TextField } from "@mui/material";
+
+// Third part Imports
+import { StandaloneSearchBox } from "@react-google-maps/api";
 
 const GoogleSearchBox = ({
   isLoaded,

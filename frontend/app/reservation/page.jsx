@@ -1,18 +1,33 @@
 "use client";
+
+// React imports
+import { useEffect, useState } from "react";
+
+// UI Imports
+import { Step, StepLabel, Stepper } from "@mui/material";
+
+// UI Components Imports
 import { ColorlibConnector } from "@/components/FormFiles/ReservationFormSteps/UI/ColorlibConnector";
 import ColorlibStepIcon from "@/components/FormFiles/ReservationFormSteps/UI/ColorlibStepIcon";
-import { Step, StepLabel, Stepper } from "@mui/material";
-import { useEffect, useState } from "react";
-import { IoIosLogOut } from "react-icons/io";
+import TripDetails from "@/components/FormFiles/ReservationFormSteps/TripDetails";
+import VehicleSelection from "@/components/FormFiles/ReservationFormSteps/VehicleSelection";
+import TripSummary from "@/components/FormFiles/ReservationFormSteps/TripSummary";
+import LoginFormModal from "@/components/AccountMangement/LoginFormModal";
 
 // Third party imports
 import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import TripDetails from "@/components/FormFiles/ReservationFormSteps/TripDetails";
-import { Services, airports } from "@/utils";
+import toast from "react-hot-toast";
 import dayjs from "dayjs";
-import VehicleSelection from "@/components/FormFiles/ReservationFormSteps/VehicleSelection";
+import utc from "dayjs/plugin/utc";
+
+// Utils Imports
+import { Services, airports } from "@/utils";
+import { sendTripDataToAdmin, sendTripDataToClient } from "@/actions/emailjs";
+
+// Redux Imports
+import { getUser } from "@/store/userSlice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
   resetReservationForm,
@@ -20,12 +35,8 @@ import {
 } from "@/store/ReservationFormSlice";
 import { useSelector } from "react-redux";
 
-import utc from "dayjs/plugin/utc";
-import TripSummary from "@/components/FormFiles/ReservationFormSteps/TripSummary";
-import { sendTripDataToAdmin, sendTripDataToClient } from "@/actions/emailjs";
-import LoginFormModal from "@/components/AccountMangement/LoginFormModal";
-import { getUser } from "@/store/userSlice";
-import toast from "react-hot-toast";
+// Icon imports
+import { IoIosLogOut } from "react-icons/io";
 
 dayjs.extend(utc);
 
