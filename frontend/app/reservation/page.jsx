@@ -14,14 +14,18 @@ import { Services, airports } from "@/utils";
 import dayjs from "dayjs";
 import VehicleSelection from "@/components/FormFiles/ReservationFormSteps/VehicleSelection";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { setReservationFormData } from "@/store/ReservationFormSlice";
+import {
+  resetReservationForm,
+  setReservationFormData,
+} from "@/store/ReservationFormSlice";
 import { useSelector } from "react-redux";
 
 import utc from "dayjs/plugin/utc";
 import TripSummary from "@/components/FormFiles/ReservationFormSteps/TripSummary";
-import { sendTripDataToAdmin } from "@/actions/emailjs";
+import { sendTripDataToAdmin, sendTripDataToClient } from "@/actions/emailjs";
 import LoginFormModal from "@/components/AccountMangement/LoginFormModal";
 import { getUser } from "@/store/userSlice";
+import toast from "react-hot-toast";
 
 dayjs.extend(utc);
 
@@ -153,6 +157,7 @@ const steps = ["Trip Details", "Vehicle selection", "Personal Info"];
 export default function BookOnline() {
   const [activeStep, setActiveStep] = useState(0); // Form steps
   const [initialRender, setInitialRender] = useState(true);
+  const [formSubmitBtnText, setFormSubmitBtnText] = useState("Request Quote");
   const dispatch = useAppDispatch();
   const userData = useAppSelector(getUser);
   const reservationFormData = useSelector(
@@ -243,9 +248,25 @@ export default function BookOnline() {
           returnFlightNo: data.returnFlightNo,
         };
       }
-      const res = await sendTripDataToAdmin(emailData);
+      setFormSubmitBtnText("Requesting...");
+      const clientEmailRespone = await sendTripDataToClient(emailData);
+      if (clientEmailRespone.status === 200) {
+        const res = await sendTripDataToAdmin(emailData);
+        if (res.status === 200) {
+          setFormSubmitBtnText("Requested Successfully");
+          toast.success("Quote request received successfully.");
+        }
+      }
     } catch (error) {
       console.log(error);
+      setFormSubmitBtnText("Form submission failed.");
+    } finally {
+      setTimeout(() => {
+        reset();
+        setFormSubmitBtnText("Request Quote");
+        dispatch(resetReservationForm());
+        setActiveStep(0);
+      }, 3000);
     }
   };
 
@@ -260,7 +281,12 @@ export default function BookOnline() {
           <VehicleSelection handleBack={handleBack} handleNext={handleNext} />
         );
       case 2:
-        return <TripSummary handleBack={handleBack} />;
+        return (
+          <TripSummary
+            handleBack={handleBack}
+            formSubmitBtnText={formSubmitBtnText}
+          />
+        );
       default:
         return "Unknown step";
     }

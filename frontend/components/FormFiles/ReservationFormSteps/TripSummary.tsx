@@ -15,7 +15,13 @@ import { addHours } from "date-fns";
 import { MobileTimePicker } from "@mui/x-date-pickers";
 import { FaAngleRight } from "react-icons/fa6";
 
-const TripSummary = ({ handleBack }: { handleBack: () => void }) => {
+const TripSummary = ({
+  handleBack,
+  formSubmitBtnText,
+}: {
+  handleBack: () => void;
+  formSubmitBtnText: string;
+}) => {
   const {
     formState: { errors },
     control,
@@ -434,8 +440,10 @@ const TripSummary = ({ handleBack }: { handleBack: () => void }) => {
           type="submit"
           className="bg-green-600 text-white p-2 px-10 rounded-md w-fit mt-10 flex items-center"
         >
-          Request Quote
-          <FaAngleRight className="ml-1 text-xl" />
+          {formSubmitBtnText}
+          {formSubmitBtnText === "Request Quote" && (
+            <FaAngleRight className="ml-1 text-xl" />
+          )}
         </button>
       </div>
     </div>

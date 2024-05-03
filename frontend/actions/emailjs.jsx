@@ -83,3 +83,9 @@ export async function sendTripDataToAdmin(data) {
     publicKey: "sM37gZ0m6VgAVXPw9",
   });
 }
+
+export async function sendTripDataToClient(data) {
+  return emailjs.send("service_neww707", "template_xag7ke7", data, {
+    publicKey: "sM37gZ0m6VgAVXPw9",
+  });
+}
