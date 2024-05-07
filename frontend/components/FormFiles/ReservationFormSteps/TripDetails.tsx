@@ -7,7 +7,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { MobileTimePicker } from "@mui/x-date-pickers";
+import { TimePicker } from "@mui/x-date-pickers";
 
 // UI Components Imports
 import Map from "@/components/GoogleMapFiles/GoogleMap";
@@ -134,13 +134,9 @@ const TripDetails = ({
                   <p className="font-bold mb-1">Pickup Date</p>
                   <LocalizationProvider dateAdapter={AdapterDayjs}>
                     <DatePicker
-                      value={value !== "" ? dayjs(value) : dayjs(Date.now())}
+                      value={dayjs(value)}
                       onChange={(date) =>
-                        onChange(
-                          date
-                            ? dayjs(date).utc(true).format()
-                            : dayjs(Date.now()).utc(true).format()
-                        )
+                        onChange(dayjs(date).utc(true).format())
                       }
                       disablePast
                     />
@@ -156,35 +152,26 @@ const TripDetails = ({
             <Controller
               name="pickUpTime"
               control={control}
-              render={({ field: { value, onChange } }) => (
-                <div className="flex flex-col">
-                  <p className="font-bold mb-1">Pickup Time</p>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <MobileTimePicker
-                      disablePast
-                      value={
-                        value !== ""
-                          ? dayjs(value)
-                          : dayjs(Date.now()).add(2, "hour")
-                      }
-                      onChange={(time) =>
-                        onChange(
-                          time
-                            ? dayjs(time).utc(true).format()
-                            : dayjs(Date.now())
-                                .add(2, "hour")
-                                .utc(true)
-                                .format()
-                        )
-                      }
-                      shouldDisableTime={disableFutureTimes}
-                    />
-                  </LocalizationProvider>
-                  {errors.pickUpTime && (
-                    <ErrorMessage>{errors.pickUpTime?.message}</ErrorMessage>
-                  )}
-                </div>
-              )}
+              render={({ field: { value, onChange } }) => {
+                return (
+                  <div className="flex flex-col">
+                    <p className="font-bold mb-1">Pickup Time</p>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <TimePicker
+                        disablePast
+                        value={dayjs(value).utcOffset(0)}
+                        onChange={(time) =>
+                          onChange(dayjs(time).utc(true).format())
+                        }
+                        shouldDisableTime={disableFutureTimes}
+                      />
+                    </LocalizationProvider>
+                    {errors.pickUpTime && (
+                      <ErrorMessage>{errors.pickUpTime?.message}</ErrorMessage>
+                    )}
+                  </div>
+                );
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6}>

@@ -39,7 +39,7 @@ export function calculateCharge(
 ) {
   let baseCharge = 0;
   const miles = Number(
-    directionsData.routes[0].legs[0].distance.text.split("mi")[0]
+    directionsData?.routes[0].legs[0].distance.text.split("mi")[0]
   );
 
   // Determine base charge based on vehicle type and miles

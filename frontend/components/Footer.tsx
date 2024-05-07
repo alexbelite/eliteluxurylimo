@@ -50,7 +50,7 @@ export default function Footer() {
                 <Link href="#airport">Airport Transportation</Link>
               </li>
               <li>
-                <Link href="#corporate">Corporate Services</Link>
+                <Link href="/corporations">Corporate Services</Link>
               </li>
               <li>
                 <Link href="#tours">Private Excursions & Tours</Link>
@@ -67,24 +67,26 @@ export default function Footer() {
             </h6>
             <Link
               className="underline flex justify-start gap-3 items-center"
-              href="tel:+18158147041">
+              href="tel:+18158147041"
+            >
               <CellPhoneIcon />1 (815) 814-7041
             </Link>
             <Link
               target="_blank"
               className="underline flex justify-start gap-3 items-center"
-              href="https://www.google.com/maps/place/111+North+Wabash,+Suite+100,+Chicago,+IL+60602">
+              href="https://www.google.com/maps/place/111+North+Wabash,+Suite+100,+Chicago,+IL+60602"
+            >
               <AddressIcon />
               111 North Wabash, Suite 100, Chicago, IL 60602{" "}
             </Link>
-            <div
-              className="underline flex justify-start gap-3 items-center">
+            <div className="underline flex justify-start gap-3 items-center">
               <AddressIcon />
               2350 W IL Rt 120 Mchenry, IL 60051
             </div>
             <Link
               className="underline flex justify-start gap-3 items-center select-all"
-              href="mailto:alexb@eliteluxurylimo.com?subject=Elite Luxury Limousine&body=Hi">
+              href="mailto:alexb@eliteluxurylimo.com?subject=Elite Luxury Limousine&body=Hi"
+            >
               <GmailIcon />
               info@eliteluxurylimo.com
             </Link>
@@ -98,13 +100,15 @@ export default function Footer() {
           <div className="flex justify-start items-center gap-1">
             <Link
               className="text-default-400 text-small"
-              href="/privacy-policy">
+              href="/privacy-policy"
+            >
               Privacy Policy
             </Link>
             <span>/</span>
             <Link
               className="text-default-400 text-small"
-              href="/terms-conditions">
+              href="/terms-conditions"
+            >
               Terms & Conditions
             </Link>
           </div>

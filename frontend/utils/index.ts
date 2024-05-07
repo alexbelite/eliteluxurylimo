@@ -26,7 +26,7 @@ export const VehiclesData = [
     type: "sedan",
     passengers: 2,
     luggage: 3,
-    isQuote: false,
+    isQuote: true,
   },
   {
     image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=2450684",
@@ -34,7 +34,7 @@ export const VehiclesData = [
     type: "suv",
     passengers: 6,
     luggage: 6,
-    isQuote: false,
+    isQuote: true,
   },
   {
     image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=1582303",

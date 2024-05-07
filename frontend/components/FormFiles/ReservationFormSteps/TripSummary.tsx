@@ -178,15 +178,9 @@ const TripSummary = ({
                       <p className="font-bold mb-1">Return Pickup Date</p>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
-                          value={
-                            value !== "" ? dayjs(value) : dayjs(Date.now())
-                          }
+                          value={dayjs(value)}
                           onChange={(date) =>
-                            onChange(
-                              date
-                                ? dayjs(date).utc(true).format()
-                                : dayjs(Date.now()).utc(true).format()
-                            )
+                            onChange(dayjs(date).utc(true).format())
                           }
                           disablePast
                         />
@@ -210,20 +204,9 @@ const TripSummary = ({
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <MobileTimePicker
                           disablePast
-                          value={
-                            value !== ""
-                              ? dayjs(value)
-                              : dayjs(Date.now()).add(3, "hour")
-                          }
+                          value={dayjs(value)}
                           onChange={(time) =>
-                            onChange(
-                              time
-                                ? dayjs(time).utc(true).format()
-                                : dayjs(Date.now())
-                                    .add(3, "hour")
-                                    .utc(true)
-                                    .format()
-                            )
+                            onChange(dayjs(time).utc(true).format())
                           }
                           shouldDisableTime={disableFutureTimes}
                         />

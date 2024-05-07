@@ -4,7 +4,14 @@
 import { useEffect, useState } from "react";
 
 // UI Imports
-import { Step, StepLabel, Stepper } from "@mui/material";
+import {
+  Step,
+  StepLabel,
+  Stepper,
+  Popover,
+  Button,
+  IconButton,
+} from "@mui/material";
 
 // UI Components Imports
 import { ColorlibConnector } from "@/components/FormFiles/ReservationFormSteps/UI/ColorlibConnector";
@@ -37,6 +44,7 @@ import { useSelector } from "react-redux";
 
 // Icon imports
 import { IoIosLogOut } from "react-icons/io";
+import { MdMenu } from "react-icons/md";
 
 dayjs.extend(utc);
 
@@ -51,11 +59,18 @@ const validationSchema = [
       .test(
         "pickUpTimeValid",
         "Pick up time must be at least 2 hours from the current time",
-        (value) => {
-          const currentTime = new Date();
-          const pickUpTime = new Date(value);
-          const timeDiff = pickUpTime.getTime() - currentTime.getTime();
-          const hoursDiff = timeDiff / (1000 * 60 * 60);
+        (value, context) => {
+          const pickUpDate = dayjs(context.parent.pickUpDate);
+          const currentDate = dayjs();
+
+          const fromTime = currentDate; // Current time
+          const toTime = dayjs(
+            `${pickUpDate.format("YYYY-MM-DD")}T${value.split("T")[1]}`
+          ).subtract(5, "hours"); // Specific time in UTC
+
+          const hoursDiff = toTime.diff(fromTime, "hours");
+
+          // Check if the pickup time is at least 2 hours from the current time
           return hoursDiff >= 2;
         }
       ),
@@ -107,20 +122,30 @@ const validationSchema = [
     carSeats: yup.number().required(),
     returnTrip: yup.boolean().optional(),
     returnPickUpDate: yup.string().required("Pick Up Date is required"),
-    returnPickUpTime: yup
-      .string()
-      .required("Pick Up Time is required")
-      .test(
-        "pickUpTimeValid",
-        "Pick up time must be at least 2 hours from the current time",
-        (value) => {
-          const currentTime = new Date();
-          const pickUpTime = new Date(value);
-          const timeDiff = pickUpTime.getTime() - currentTime.getTime();
-          const hoursDiff = timeDiff / (1000 * 60 * 60);
-          return hoursDiff >= 2;
-        }
-      ),
+    returnPickUpTime: yup.string().when("returnTrip", {
+      is: true,
+      then: yup
+        .string()
+        .required("Pick Up Time is required")
+        .test(
+          "pickUpTimeValid",
+          "Pick up time must be at least 2 hours from the current time",
+          (value, context) => {
+            const returnPickUpDate = dayjs(context.parent.returnPickUpDate);
+            const currentDate = dayjs();
+
+            const fromTime = currentDate; // Current time
+            const toTime = dayjs(
+              `${returnPickUpDate.format("YYYY-MM-DD")}T${value.split("T")[1]}`
+            ).subtract(5, "hours"); // Specific time in UTC
+
+            const hoursDiff = toTime.diff(fromTime, "hours");
+
+            // Check if the pickup time is at least 2 hours from the current time
+            return hoursDiff >= 2;
+          }
+        ),
+    }),
     returnMeetGreet: yup.boolean().optional(),
     returnAirline: yup.string().when(["service", "returnTrip"], {
       is: (service, returnTrip) => service === "from_airport" && returnTrip,
@@ -138,7 +163,7 @@ const validationSchema = [
 const defaultValues = {
   service: Services[0].value,
   pickUpDate: dayjs(Date.now()).utc(true).format(),
-  pickUpTime: dayjs(Date.now()).add(2, "hour").utc(true).format(),
+  pickUpTime: dayjs(Date.now()).utc(true).format(),
   passengers: 1,
   luggage: 0,
   pickUpAddress: null,
@@ -157,7 +182,7 @@ const defaultValues = {
   carSeats: 0,
   returnTrip: false,
   returnPickUpDate: dayjs(Date.now()).utc(true).format(),
-  returnPickUpTime: dayjs(Date.now()).add(3, "hour").utc(true).format(),
+  returnPickUpTime: dayjs(Date.now()).utc(true).format(),
   returnMeetGreet: false,
   returnAirline: "",
   returnFlightNo: "",
@@ -174,6 +199,19 @@ export default function BookOnline() {
   const reservationFormData = useSelector(
     (state) => state.reservationForm.ReservationFormData
   );
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   const schema = validationSchema[activeStep];
   const formMethods = useForm({
@@ -195,12 +233,15 @@ export default function BookOnline() {
   const handleNext = async () => {
     const isStepValid = await trigger();
     const values = getValues();
-    const valuesData = {
-      ...values,
-      step: activeStep < steps.length - 1 ? activeStep + 1 : activeStep,
-    };
-    dispatch(setReservationFormData(valuesData));
-    if (isStepValid) setActiveStep((prevActiveStep) => prevActiveStep + 1);
+
+    if (isStepValid) {
+      const valuesData = {
+        ...values,
+        step: activeStep < steps.length - 1 ? activeStep + 1 : activeStep,
+      };
+      dispatch(setReservationFormData(valuesData));
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
 
   const handleBack = () => {
@@ -237,7 +278,7 @@ export default function BookOnline() {
         flightNo: data.flightNo,
         vehicle: data.vehicle.name,
         specialRequests: data.specialRequests,
-        meetGreet: data.meetGreet,
+        meetGreet: data.meetGreet ? "Yes" : "No",
         carSeats: data.carSeats,
       };
       if (data.stops.length > 0) {
@@ -254,7 +295,7 @@ export default function BookOnline() {
             "dddd, MMMM DD, YYYY"
           ),
           returnPickUpTime: dayjs(data.returnPickUpTime).format("hh:mm A"),
-          returnMeetGreet: data.returnMeetGreet,
+          returnMeetGreet: data.returnMeetGreet ? "Yes" : "No",
           returnAirline: data.returnAirline,
           returnFlightNo: data.returnFlightNo,
         };
@@ -330,7 +371,38 @@ export default function BookOnline() {
         </p>
         <div className="mt-20 border-[1px] w-full border-slate-300 border-solid p-4 rounded-md">
           <div className="w-full flex items-center justify-between">
-            <h1 className="font-bold text-xl text-black">New Reservation</h1>
+            <div>
+              <IconButton
+                aria-describedby={id}
+                className="!p-0 items-center !flex hover:!bg-transparent"
+                onClick={handleClick}
+              >
+                <MdMenu className="text-2xl mr-1 text-[#337ab7]" />
+                <p className="text-xs text-[#337ab7]">New Reservation</p>
+              </IconButton>
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+              >
+                <p
+                  className="p-2 px-6 text-sm cursor-pointer"
+                  onClick={() => {
+                    reset();
+                    setActiveStep(0);
+                    dispatch(resetReservationForm());
+                    handleClose();
+                  }}
+                >
+                  Book a New Trip
+                </p>
+              </Popover>
+            </div>
             {userData ? (
               <p className="flex items-center text-[#337ab7] text-md cursor-pointer">
                 {userData.first_name}
@@ -345,6 +417,7 @@ export default function BookOnline() {
               />
             )}
           </div>
+
           <p className="mb-0 mt-4 text-lg">Reservations</p>
           <p className="italic text-sm">
             Book a trip or request a quote by filling out the form below.
