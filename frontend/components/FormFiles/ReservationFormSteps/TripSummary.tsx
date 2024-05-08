@@ -9,7 +9,7 @@ import { Grid, MenuItem, Select, TextField } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { MobileTimePicker } from "@mui/x-date-pickers";
+import { TimePicker } from "@mui/x-date-pickers";
 
 // UI Components Imports
 import { ErrorMessage } from "@/components/FormFiles/ErrorMessage";
@@ -202,7 +202,7 @@ const TripSummary = ({
                     <div className="flex flex-col">
                       <p className="font-bold mb-1">Return Pickup Time</p>
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <MobileTimePicker
+                        <TimePicker
                           disablePast
                           value={dayjs(value)}
                           onChange={(time) =>
