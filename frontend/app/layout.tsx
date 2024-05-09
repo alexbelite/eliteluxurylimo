@@ -15,16 +15,16 @@ export const metadata: Metadata = {
   description: `We are a family and locally owned business deeply rooted in tradition serving the Chicago and Milwaukee markets. Where
   integrity and reliability resonate throughout the organization. We look forward to you or your organization joining our family of
   satisfied clients. Professional Chauffeur Services for Seamless Journeys! Book our services and enjoy a stylish and safe ride, regardless of your destination. We provide reliable and experienced chauffeurs ready to meet you at the airport or serve as your personal driver. With a modern fleet, high-quality service, and affordable rates, entrust your journey to professionals and make every ride a hassle-free experience!`,
-  metadataBase: new URL("https://alexlimo.vercel.app/"),
+  metadataBase: new URL("https://eliteluxurylimo.com/"),
   authors: [
     { name: "Alex" },
-    { name: "Alex", url: "https://alexlimo.vercel.app/" },
+    { name: "Alex", url: "https://eliteluxurylimo.com/" },
   ],
   openGraph: {
     title: "Elite Luxury Limo Order Ride",
     description:
       "Professional Chauffeur Services for Seamless Journeys! Book our services and enjoy a stylish and safe ride, regardless of your destination. We provide reliable and experienced chauffeurs ready to meet you at the airport or serve as your personal driver. With a modern fleet, high-quality service, and affordable rates, entrust your journey to professionals and make every ride a hassle-free experience!",
-    url: "https://alexlimo.vercel.app/",
+    url: "https://eliteluxurylimo.com/",
     siteName: "ELite Luxury Limousine",
     images: [
       {
