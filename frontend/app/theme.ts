@@ -15,13 +15,6 @@ export const theme = createTheme({
         },
       },
     },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          maxHeight: "300px!important",
-        },
-      },
-    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {

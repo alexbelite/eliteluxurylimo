@@ -6,18 +6,17 @@ import Image from "next/image";
 
 // UI Imports
 import { Grid, MenuItem, Select, TextField } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers";
+import { MobileTimePicker } from "@mui/x-date-pickers";
 
 // UI Components Imports
 import { ErrorMessage } from "@/components/FormFiles/ErrorMessage";
 
 // Third part Imports
-import dayjs from "dayjs";
+import moment from "moment-timezone";
 import { Controller, useFormContext } from "react-hook-form";
-import { addHours } from "date-fns";
 
 // Icon imports
 import { FaUser } from "react-icons/fa";
@@ -25,6 +24,9 @@ import { TiArrowBack } from "react-icons/ti";
 import { BsSuitcaseFill } from "react-icons/bs";
 import { FaLocationDot, FaPerson } from "react-icons/fa6";
 import { FaAngleRight } from "react-icons/fa6";
+
+// Set the time zone to Chicago
+moment.tz.setDefault("America/Chicago");
 
 const TripSummary = ({
   handleBack,
@@ -35,12 +37,12 @@ const TripSummary = ({
 }) => {
   const {
     formState: { errors },
-    control,
-    watch,
-    setValue,
-    clearErrors,
     getValues,
+    setValue,
+    watch,
+    control,
   } = useFormContext();
+
   const {
     vehicle,
     service,
@@ -57,9 +59,6 @@ const TripSummary = ({
   const meetGreet = watch("meetGreet");
   const returnMeetGreet = watch("returnMeetGreet");
 
-  const disableFutureTimes = (time: any) => {
-    return time < addHours(new Date(), 2);
-  };
   return (
     <div className="w-full">
       <div className="w-full flex flex-col md:flex-row mt-10">
@@ -78,8 +77,8 @@ const TripSummary = ({
             <div className="w-1/2">
               <p className="font-bold capitalize text-sm">
                 {service.split("_").join(" ")} on{" "}
-                {dayjs(pickUpDate).format("dddd, MMMM DD, YYYY")} at{" "}
-                {dayjs(pickUpTime).format("hh:mm A")}
+                {moment(pickUpDate).format("dddd, MMMM DD, YYYY")} at{" "}
+                {moment(pickUpTime).format("hh:mm A")}
               </p>
               <p className="font-bold capitalize text-sm">
                 Vehicle : {vehicle.name}
@@ -117,7 +116,7 @@ const TripSummary = ({
           <button
             type="button"
             onClick={() => {
-              setValue("meetGreet", !meetGreet, {
+              setValue("meetGreet", meetGreet ? false : true, {
                 shouldDirty: true,
                 shouldValidate: true,
               });
@@ -156,7 +155,7 @@ const TripSummary = ({
           <button
             type="button"
             onClick={() => {
-              setValue("returnTrip", !returnTrip, {
+              setValue("returnTrip", returnTrip ? false : true, {
                 shouldDirty: true,
                 shouldValidate: true,
               });
@@ -176,12 +175,20 @@ const TripSummary = ({
                   render={({ field: { value, onChange, onBlur } }) => (
                     <div className="flex flex-col">
                       <p className="font-bold mb-1">Return Pickup Date</p>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <LocalizationProvider dateAdapter={AdapterMoment}>
                         <DatePicker
-                          value={dayjs(value)}
-                          onChange={(date) =>
-                            onChange(dayjs(date).utc(true).format())
-                          }
+                          timezone="America/Chicago"
+                          value={moment(value)}
+                          onChange={(date) => {
+                            onChange(moment(date).format());
+                            const time = `${moment(date).format(
+                              "YYYY-MM-DD"
+                            )}T${watch("returnPickUpTime").split("T")[1]}`;
+                            setValue("returnPickUpTime", time, {
+                              shouldDirty: true,
+                              shouldValidate: true,
+                            });
+                          }}
                           disablePast
                         />
                       </LocalizationProvider>
@@ -201,14 +208,13 @@ const TripSummary = ({
                   render={({ field: { value, onChange } }) => (
                     <div className="flex flex-col">
                       <p className="font-bold mb-1">Return Pickup Time</p>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <TimePicker
-                          disablePast
-                          value={dayjs(value)}
-                          onChange={(time) =>
-                            onChange(dayjs(time).utc(true).format())
+                      <LocalizationProvider dateAdapter={AdapterMoment}>
+                        <MobileTimePicker
+                          timezone="America/Chicago"
+                          value={moment(value)}
+                          onChange={(time: any) =>
+                            onChange(moment(time).format())
                           }
-                          shouldDisableTime={disableFutureTimes}
                         />
                       </LocalizationProvider>
                       {errors.returnPickUpTime && (
@@ -278,10 +284,14 @@ const TripSummary = ({
                 <button
                   type="button"
                   onClick={() => {
-                    setValue("returnMeetGreet", !returnMeetGreet, {
-                      shouldDirty: true,
-                      shouldValidate: true,
-                    });
+                    setValue(
+                      "returnMeetGreet",
+                      returnMeetGreet ? false : true,
+                      {
+                        shouldDirty: true,
+                        shouldValidate: true,
+                      }
+                    );
                   }}
                   className={`w-full p-2 border-solid border-1 mb-1 border-black shadow-inner rounded-md ${
                     returnMeetGreet ? "bg-slate-100" : ""

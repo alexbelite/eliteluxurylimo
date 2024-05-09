@@ -59,12 +59,14 @@ const VehicleSelection = ({
               justifyContent="space-between"
             >
               <p className="text-lg mb-2">{vehicle.name}</p>
-              <Image
-                src={vehicle.image}
-                width={160}
-                height={80}
-                alt={vehicle.name}
-              />
+              <div className="h-[150px] flex items-center justify-center">
+                <Image
+                  src={vehicle.image}
+                  width={160}
+                  height={80}
+                  alt={vehicle.name}
+                />
+              </div>
               <div className="flex mt-2">
                 <p className="flex mr-2">
                   <FaUser className="mr-1 text-xl" /> {vehicle.passengers}
@@ -103,7 +105,7 @@ const VehicleSelection = ({
                         </p>
                       ) : (
                         <>
-                          <p className="my-3 text-sm font-semibold text-slate-200">
+                          <p className="my-3 text-md font-semibold text-slate-200">
                             Request a quote
                           </p>
                           <button

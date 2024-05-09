@@ -70,6 +70,9 @@ export default function Header() {
             <Link
               href="/"
               className=" p-0 max-sm:w-full w-full h-full relative"
+              onClick={() => {
+                dispatch(resetReservationForm());
+              }}
             >
               <Image
                 className="object-contain w-full h-full select-none object-center"
@@ -96,10 +99,7 @@ export default function Header() {
                     if (el.section) {
                       scrollTo(el.section);
                     }
-                    if (
-                      el.label === "Reservation" &&
-                      pathname !== "/reservation"
-                    ) {
+                    if (pathname !== "/reservation") {
                       dispatch(resetReservationForm());
                     }
                     toggleMenu();

@@ -26,8 +26,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import toast from "react-hot-toast";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
+import moment from "moment-timezone";
 
 // Utils Imports
 import { Services, airports } from "@/utils";
@@ -46,147 +45,8 @@ import { useSelector } from "react-redux";
 import { IoIosLogOut } from "react-icons/io";
 import { MdMenu } from "react-icons/md";
 
-dayjs.extend(utc);
-
-// Form validation schema
-const validationSchema = [
-  yup.object({
-    service: yup.string().required("Service is required"),
-    pickUpDate: yup.string().required("Pick Up Date is required"),
-    pickUpTime: yup
-      .string()
-      .required("Pick Up Time is required")
-      .test(
-        "pickUpTimeValid",
-        "Pick up time must be at least 2 hours from the current time",
-        (value, context) => {
-          const pickUpDate = dayjs(context.parent.pickUpDate);
-          const currentDate = dayjs();
-
-          const fromTime = currentDate; // Current time
-          const toTime = dayjs(
-            `${pickUpDate.format("YYYY-MM-DD")}T${value.split("T")[1]}`
-          ).subtract(5, "hours"); // Specific time in UTC
-
-          const hoursDiff = toTime.diff(fromTime, "hours");
-
-          // Check if the pickup time is at least 2 hours from the current time
-          return hoursDiff >= 2;
-        }
-      ),
-    passengers: yup.string().required("Passengers count is required"),
-    luggage: yup.string().required("Luggage count is required"),
-    pickUpAddress: yup.object().when("service", {
-      is: (service) => service === "from_airport",
-      then: () => yup.object().required("Pick up airport is required"),
-      otherwise: () => yup.object().required("Pick up address is required"),
-    }),
-    stops: yup
-      .array()
-      .of(yup.object().required("Stops Address is required"))
-      .optional(),
-    dropOffAddress: yup.object().when("service", {
-      is: (service) => service === "to_airport",
-      then: () => yup.object().required("Drop off airport is required"),
-      otherwise: () => yup.object().required("Drop off Address is required"),
-    }),
-    airline: yup.string().when("service", {
-      is: (service) => service === "from_airport",
-      then: () => yup.string().required("Airline is required"),
-      otherwise: () => yup.string().optional(),
-    }),
-    flightNo: yup.string().when("service", {
-      is: (service) => service === "from_airport",
-      then: () => yup.string().required("Flight Number is required"),
-      otherwise: () => yup.string().optional(),
-    }),
-    hours: yup.string().when("service", {
-      is: (service) => service === "hourly_charter",
-      then: () => yup.string().required("Flight Number is required"),
-      otherwise: () => yup.string().optional(),
-    }),
-  }),
-  yup.object({
-    vehicle: yup.object().required("Please select a vehicle"),
-  }),
-  yup.object({
-    firstName: yup.string().required("First name is required"),
-    lastName: yup.string().required("Last name is required"),
-    phone: yup.string().required("Phone number is required"),
-    specialRequests: yup.string().optional(),
-    email: yup
-      .string()
-      .email("Please enter valid email")
-      .required("Email is required"),
-    meetGreet: yup.boolean().optional(),
-    carSeats: yup.number().required(),
-    returnTrip: yup.boolean().optional(),
-    returnPickUpDate: yup.string().required("Pick Up Date is required"),
-    returnPickUpTime: yup.string().when("returnTrip", {
-      is: true,
-      then: yup
-        .string()
-        .required("Pick Up Time is required")
-        .test(
-          "pickUpTimeValid",
-          "Pick up time must be at least 2 hours from the current time",
-          (value, context) => {
-            const returnPickUpDate = dayjs(context.parent.returnPickUpDate);
-            const currentDate = dayjs();
-
-            const fromTime = currentDate; // Current time
-            const toTime = dayjs(
-              `${returnPickUpDate.format("YYYY-MM-DD")}T${value.split("T")[1]}`
-            ).subtract(5, "hours"); // Specific time in UTC
-
-            const hoursDiff = toTime.diff(fromTime, "hours");
-
-            // Check if the pickup time is at least 2 hours from the current time
-            return hoursDiff >= 2;
-          }
-        ),
-    }),
-    returnMeetGreet: yup.boolean().optional(),
-    returnAirline: yup.string().when(["service", "returnTrip"], {
-      is: (service, returnTrip) => service === "from_airport" && returnTrip,
-      then: () => yup.string().required("Airline is required"),
-      otherwise: () => yup.string().optional(),
-    }),
-    returnFlightNo: yup.string().when(["service", "returnTrip"], {
-      is: (service, returnTrip) => service === "from_airport" && returnTrip,
-      then: () => yup.string().required("Flight Number is required"),
-      otherwise: () => yup.string().optional(),
-    }),
-  }),
-];
-
-const defaultValues = {
-  service: Services[0].value,
-  pickUpDate: dayjs(Date.now()).utc(true).format(),
-  pickUpTime: dayjs(Date.now()).utc(true).format(),
-  passengers: 1,
-  luggage: 0,
-  pickUpAddress: null,
-  stops: [],
-  dropOffAddress: airports[0],
-  hours: 1,
-  airline: "",
-  flightNo: "",
-  vehicle: "",
-  specialRequests: "",
-  firstName: "",
-  lastName: "",
-  phone: "",
-  email: "",
-  meetGreet: false,
-  carSeats: 0,
-  returnTrip: false,
-  returnPickUpDate: dayjs(Date.now()).utc(true).format(),
-  returnPickUpTime: dayjs(Date.now()).utc(true).format(),
-  returnMeetGreet: false,
-  returnAirline: "",
-  returnFlightNo: "",
-};
+// Set the default time zone to Chicago
+moment.tz.setDefault("America/Chicago");
 
 const steps = ["Trip Details", "Vehicle selection", "Personal Info"];
 
@@ -194,13 +54,160 @@ export default function BookOnline() {
   const [activeStep, setActiveStep] = useState(0); // Form steps
   const [initialRender, setInitialRender] = useState(true);
   const [formSubmitBtnText, setFormSubmitBtnText] = useState("Request Quote");
+  const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useAppDispatch();
   const userData = useAppSelector(getUser);
   const reservationFormData = useSelector(
     (state) => state.reservationForm.ReservationFormData
   );
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  const defaultValues = {
+    service: Services[0].value,
+    pickUpDate: moment().format(),
+    pickUpTime: moment().format(),
+    passengers: 1,
+    luggage: 0,
+    pickUpAddress: null,
+    stops: [],
+    dropOffAddress: airports[0],
+    hours: 1,
+    airline: "",
+    flightNo: "",
+    vehicle: "",
+    specialRequests: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    meetGreet: false,
+    carSeats: 0,
+    returnTrip: false,
+    returnPickUpDate: moment().format(),
+    returnPickUpTime: moment().format(),
+    returnMeetGreet: false,
+    returnAirline: "",
+    returnFlightNo: "",
+  };
+
+  // Form validation schema
+  const validationSchema = [
+    yup.object({
+      service: yup.string().required("Service is required"),
+      pickUpDate: yup.string().required("Pick Up Date is required"),
+      pickUpTime: yup
+        .string()
+        .required("Pick Up Time is required")
+        .test(
+          "pickUpTimeValid",
+          "Pick up time must be at least 2 hours from the current time",
+          (value, context) => {
+            const pickUpDate = moment(context.parent.pickUpDate);
+            const currentDate = moment();
+
+            const fromTime = currentDate; // Current time
+            const toTime = moment(
+              `${pickUpDate.format("YYYY-MM-DD")}T${value.split("T")[1]}`
+            ); // Specific time in UTC
+
+            const hoursDiff = toTime.diff(fromTime, "hours");
+
+            // Check if the pickup time is at least 2 hours from the current time
+            return hoursDiff >= 1;
+          }
+        ),
+      passengers: yup.string().required("Passengers count is required"),
+      luggage: yup.string().required("Luggage count is required"),
+      pickUpAddress: yup.object().when("service", {
+        is: (service) => service === "from_airport",
+        then: () => yup.object().required("Pick up airport is required"),
+        otherwise: () => yup.object().required("Pick up address is required"),
+      }),
+      stops: yup
+        .array()
+        .of(yup.object().required("Stops Address is required"))
+        .optional(),
+      dropOffAddress: yup.object().when("service", {
+        is: (service) => service === "to_airport",
+        then: () => yup.object().required("Drop off airport is required"),
+        otherwise: () => yup.object().required("Drop off Address is required"),
+      }),
+      airline: yup.string().when("service", {
+        is: (service) => service === "from_airport",
+        then: () => yup.string().required("Airline is required"),
+        otherwise: () => yup.string().optional(),
+      }),
+      flightNo: yup.string().when("service", {
+        is: (service) => service === "from_airport",
+        then: () => yup.string().required("Flight Number is required"),
+        otherwise: () => yup.string().optional(),
+      }),
+      hours: yup.string().when("service", {
+        is: (service) => service === "hourly_charter",
+        then: () => yup.string().required("Flight Number is required"),
+        otherwise: () => yup.string().optional(),
+      }),
+    }),
+    yup.object({
+      vehicle: yup.object().required("Please select a vehicle"),
+    }),
+    yup.object({
+      firstName: yup.string().required("First name is required"),
+      lastName: yup.string().required("Last name is required"),
+      phone: yup.string().required("Phone number is required"),
+      specialRequests: yup.string().optional(),
+      email: yup
+        .string()
+        .email("Please enter valid email")
+        .required("Email is required"),
+      meetGreet: yup.boolean().required(),
+      carSeats: yup.number().required(),
+      returnTrip: yup.boolean().required(),
+      returnPickUpDate: yup.string().required("Pick Up Date is required"),
+      returnPickUpTime: yup
+        .string()
+        .when("returnTrip", {
+          is: true,
+          then: () =>
+            yup
+              .string()
+              .required("Pick Up Time is required")
+              .test(
+                "pickUpTimeValid",
+                "Pick up time must be at least 1 hours from the Initial time",
+                (value, context) => {
+                  const returnPickUpDate = moment(
+                    context.parent.returnPickUpDate
+                  );
+                  const currentDate = moment(reservationFormData.pickUpTime);
+
+                  const fromTime = currentDate; // Current time
+                  const toTime = moment(
+                    `${returnPickUpDate.format("YYYY-MM-DD")}T${
+                      value.split("T")[1]
+                    }`
+                  ); // Specific time in UTC
+
+                  const hoursDiff = toTime.diff(fromTime, "hours");
+                  // Check if the pickup time is at least 2 hours from the current time
+                  return hoursDiff >= 1;
+                }
+              ),
+          otherwise: () => yup.string().required(),
+        })
+        .required(),
+      returnMeetGreet: yup.boolean().required(),
+      returnAirline: yup.string().when(["service", "returnTrip"], {
+        is: (service, returnTrip) => service === "from_airport" && returnTrip,
+        then: () => yup.string().required("Airline is required"),
+        otherwise: () => yup.string().optional(),
+      }),
+      returnFlightNo: yup.string().when(["service", "returnTrip"], {
+        is: (service, returnTrip) => service === "from_airport" && returnTrip,
+        then: () => yup.string().required("Flight Number is required"),
+        otherwise: () => yup.string().optional(),
+      }),
+    }),
+  ];
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -217,7 +224,7 @@ export default function BookOnline() {
   const formMethods = useForm({
     defaultValues,
     resolver: yupResolver(schema),
-    mode: "onChange",
+    mode: "all",
   });
   const {
     control,
@@ -262,8 +269,8 @@ export default function BookOnline() {
         email: data.email,
         phone: data.phone,
         service: Services.filter((el) => el.value === data.service)[0].label,
-        pickUpDate: dayjs(data.pickUpDate).format("dddd, MMMM DD, YYYY"),
-        pickUpTime: dayjs(data.pickUpTime).format("hh:mm A"),
+        pickUpDate: moment(data.pickUpDate).format("dddd, MMMM DD, YYYY"),
+        pickUpTime: moment(data.pickUpTime).format("hh:mm A"),
         luggage: data.luggage,
         passengers: data.passengers,
         pickUpAddress: data.pickUpAddress.formatted_address
@@ -291,10 +298,10 @@ export default function BookOnline() {
       if (data.returnTrip) {
         emailData = {
           ...emailData,
-          returnPickUpDate: dayjs(data.returnPickUpDate).format(
+          returnPickUpDate: moment(data.returnPickUpDate).format(
             "dddd, MMMM DD, YYYY"
           ),
-          returnPickUpTime: dayjs(data.returnPickUpTime).format("hh:mm A"),
+          returnPickUpTime: moment(data.returnPickUpTime).format("hh:mm A"),
           returnMeetGreet: data.returnMeetGreet ? "Yes" : "No",
           returnAirline: data.returnAirline,
           returnFlightNo: data.returnFlightNo,
@@ -358,7 +365,7 @@ export default function BookOnline() {
       }
     }
     setInitialRender(false);
-  }, [reservationFormData, setValue]);
+  }, [reservationFormData, setValue, initialRender]);
 
   return (
     <section className="w-full flex items-center justify-center bg-white py-24 text-black">

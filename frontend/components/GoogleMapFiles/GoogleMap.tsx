@@ -104,7 +104,7 @@ export default function Map({
         );
       }
     };
-  }, [startLocation, endLocation, stops, isLoaded]);
+  }, [startLocation, endLocation, stops, isLoaded, dispatch]);
 
   useEffect(() => {
     fetchDirections();

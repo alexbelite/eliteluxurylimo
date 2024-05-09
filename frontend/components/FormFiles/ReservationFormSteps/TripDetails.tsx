@@ -4,10 +4,10 @@ import React from "react";
 // UI Imports
 import { Grid, IconButton, MenuItem, Select, TextField } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { TimePicker } from "@mui/x-date-pickers";
+import { MobileTimePicker } from "@mui/x-date-pickers";
 
 // UI Components Imports
 import Map from "@/components/GoogleMapFiles/GoogleMap";
@@ -15,9 +15,7 @@ import GoogleSearchBox from "./UI/GoogleSearchBox";
 import { ErrorMessage } from "@/components/FormFiles/ErrorMessage";
 
 // Third part Imports
-import { addHours } from "date-fns";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
+import moment from "moment-timezone";
 import { useJsApiLoader } from "@react-google-maps/api";
 
 // Utils imports
@@ -34,7 +32,8 @@ import { MdCancel } from "react-icons/md";
 import { useAppDispatch } from "@/store/hooks";
 import { setDirectionsData } from "@/store/ReservationFormSlice";
 
-dayjs.extend(utc);
+// Set the time zone to Chicago
+moment.tz.setDefault("America/Chicago");
 
 const TripDetails = ({
   handleNext,
@@ -60,10 +59,6 @@ const TripDetails = ({
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY as string,
     libraries: GOOGLE_MAPS_LIBRARIES,
   });
-
-  const disableFutureTimes = (time: any) => {
-    return time < addHours(new Date(), 1);
-  };
 
   const serviceChangeHandler = (serviceType: string) => {
     let pickUp, dropoff;
@@ -129,23 +124,33 @@ const TripDetails = ({
             <Controller
               name="pickUpDate"
               control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <div className="flex flex-col">
-                  <p className="font-bold mb-1">Pickup Date</p>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      value={dayjs(value)}
-                      onChange={(date) =>
-                        onChange(dayjs(date).utc(true).format())
-                      }
-                      disablePast
-                    />
-                  </LocalizationProvider>
-                  {errors.pickUpDate && (
-                    <ErrorMessage>{errors.pickUpDate?.message}</ErrorMessage>
-                  )}
-                </div>
-              )}
+              render={({ field: { value, onChange, onBlur } }) => {
+                return (
+                  <div className="flex flex-col">
+                    <p className="font-bold mb-1">Pickup Date</p>
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                      <DatePicker
+                        timezone="America/Chicago"
+                        value={moment(value)}
+                        onChange={(date) => {
+                          onChange(moment(date).format());
+                          const time = `${moment(date).format("YYYY-MM-DD")}T${
+                            watch("pickUpTime").split("T")[1]
+                          }`;
+                          setValue("pickUpTime", time, {
+                            shouldDirty: true,
+                            shouldValidate: true,
+                          });
+                        }}
+                        disablePast
+                      />
+                    </LocalizationProvider>
+                    {errors.pickUpDate && (
+                      <ErrorMessage>{errors.pickUpDate?.message}</ErrorMessage>
+                    )}
+                  </div>
+                );
+              }}
             />
           </Grid>
           <Grid item xs={12} md={6}>
@@ -156,14 +161,13 @@ const TripDetails = ({
                 return (
                   <div className="flex flex-col">
                     <p className="font-bold mb-1">Pickup Time</p>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <TimePicker
-                        disablePast
-                        value={dayjs(value).utcOffset(0)}
-                        onChange={(time) =>
-                          onChange(dayjs(time).utc(true).format())
+                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                      <MobileTimePicker
+                        timezone="America/Chicago"
+                        value={moment(value)}
+                        onChange={(time: any) =>
+                          onChange(moment(time).format())
                         }
-                        shouldDisableTime={disableFutureTimes}
                       />
                     </LocalizationProvider>
                     {errors.pickUpTime && (
@@ -181,7 +185,14 @@ const TripDetails = ({
               render={({ field }) => (
                 <div className="flex flex-col">
                   <p className="font-bold mb-1">Passengers</p>
-                  <Select {...field}>
+                  <Select
+                    {...field}
+                    MenuProps={{
+                      sx: {
+                        maxHeight: "300px",
+                      },
+                    }}
+                  >
                     {Array(56)
                       .fill(0)
                       .map((passenger, i) => (
@@ -205,7 +216,14 @@ const TripDetails = ({
               render={({ field }) => (
                 <div className="flex flex-col">
                   <p className="font-bold mb-1">Luggage</p>
-                  <Select {...field}>
+                  <Select
+                    {...field}
+                    MenuProps={{
+                      sx: {
+                        maxHeight: "300px",
+                      },
+                    }}
+                  >
                     {Array(57)
                       .fill(0)
                       .map((luggage, i) => (

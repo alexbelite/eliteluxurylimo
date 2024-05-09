@@ -8,7 +8,7 @@ import Image from "next/image";
 
 export default function HomeBanner() {
   const options: EmblaOptionsType = {
-    align: "start",
+    align: "center",
     loop: true,
   };
   const SLIDE_COUNT = 3;
@@ -16,9 +16,9 @@ export default function HomeBanner() {
 
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
     Autoplay({
-      delay: 3000,
+      delay: 2500,
       stopOnInteraction: false,
-      stopOnMouseEnter: true,
+      stopOnMouseEnter: false,
     }),
   ]);
 

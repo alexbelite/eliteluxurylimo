@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import WhoWeAre from "@/public/whoWeAre.jpeg";
@@ -7,8 +9,11 @@ import ad from "@/public/adpicture.jpg";
 import HomeBanner from "@/components/HomeBanner";
 import HeaderTitle from "@/components/HeaderTitle";
 import Testimonals from "@/components/Testimonals";
+import { useAppDispatch } from "@/store/hooks";
+import { resetReservationForm } from "@/store/ReservationFormSlice";
 
 export default function Home() {
+  const dispatch = useAppDispatch();
   return (
     <>
       <section className=" text-white w-full h-screen flex flex-col justify-center items-center">
@@ -19,6 +24,7 @@ export default function Home() {
             <HeaderTitle />
             <Link
               href="/reservation"
+              onClick={() => dispatch(resetReservationForm())}
               className="px-12 py-4 bg-[#afa581] font-semibold text-lg rounded-sm text-white"
             >
               Make a Reservation
