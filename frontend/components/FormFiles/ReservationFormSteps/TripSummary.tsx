@@ -113,20 +113,22 @@ const TripSummary = ({
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              setValue("meetGreet", meetGreet ? false : true, {
-                shouldDirty: true,
-                shouldValidate: true,
-              });
-            }}
-            className={`w-full p-2 border-solid border-1 mb-1 border-black shadow-inner rounded-md ${
-              meetGreet ? "bg-slate-100" : ""
-            }`}
-          >
-            Meet & Greet? {meetGreet ? "Yes" : "No"}
-          </button>
+          {service !== "point_to_point" && (
+            <button
+              type="button"
+              onClick={() => {
+                setValue("meetGreet", meetGreet ? false : true, {
+                  shouldDirty: true,
+                  shouldValidate: true,
+                });
+              }}
+              className={`w-full p-2 border-solid border-1 mb-1 border-black shadow-inner rounded-md ${
+                meetGreet ? "bg-slate-100" : ""
+              }`}
+            >
+              Meet & Greet? {meetGreet ? "Yes" : "No"}
+            </button>
+          )}
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Controller
@@ -280,26 +282,28 @@ const TripSummary = ({
                   </Grid>
                 </>
               )}
-              <Grid item xs={12}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setValue(
-                      "returnMeetGreet",
-                      returnMeetGreet ? false : true,
-                      {
-                        shouldDirty: true,
-                        shouldValidate: true,
-                      }
-                    );
-                  }}
-                  className={`w-full p-2 border-solid border-1 mb-1 border-black shadow-inner rounded-md ${
-                    returnMeetGreet ? "bg-slate-100" : ""
-                  }`}
-                >
-                  Meet & Greet? {returnMeetGreet ? "Yes" : "No"}
-                </button>
-              </Grid>
+              {service !== "point_to_point" && (
+                <Grid item xs={12}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setValue(
+                        "returnMeetGreet",
+                        returnMeetGreet ? false : true,
+                        {
+                          shouldDirty: true,
+                          shouldValidate: true,
+                        }
+                      );
+                    }}
+                    className={`w-full p-2 border-solid border-1 mb-1 border-black shadow-inner rounded-md ${
+                      returnMeetGreet ? "bg-slate-100" : ""
+                    }`}
+                  >
+                    Meet & Greet? {returnMeetGreet ? "Yes" : "No"}
+                  </button>
+                </Grid>
+              )}
             </Grid>
           )}
         </div>

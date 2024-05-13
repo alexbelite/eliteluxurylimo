@@ -87,26 +87,23 @@ export default function Header() {
           <NavbarMenu className="dark h-auto text-white py-3 backdrop-blur-sm bg-black/30">
             {navlinks.map((el) => (
               <NavbarMenuItem key={el.id}>
-                <Link
-                  className={`${
+                <p
+                  className={`cursor-pointer ${
                     pathname === el.href
                       ? "text-[#F5A524]"
                       : "text-gray/800 hover:backdrop-blur-md hover:bg-black/30"
                   } w-full p-1 my-1 text-white`}
-                  size="lg"
                   onClick={() => {
-                    router.push(el.href);
+                    dispatch(resetReservationForm());
+                    window.location.href = el.href;
                     if (el.section) {
                       scrollTo(el.section);
-                    }
-                    if (pathname !== "/reservation") {
-                      dispatch(resetReservationForm());
                     }
                     toggleMenu();
                   }}
                 >
                   {el.label}
-                </Link>
+                </p>
               </NavbarMenuItem>
             ))}
             <NavbarMenuItem className="text-white">
@@ -162,24 +159,18 @@ export default function Header() {
         <NavbarContent className="max-md:hidden" justify="start">
           {navlinks.map((el) => (
             <NavbarItem key={el.id} className="text-white">
-              <Link
-                underline="active"
-                className={"text-white"}
+              <p
+                className="text-white cursor-pointer"
                 onClick={() => {
-                  router.push(el.href);
-                  if (
-                    el.label === "Reservation" &&
-                    pathname !== "/reservation"
-                  ) {
-                    dispatch(resetReservationForm());
-                  }
+                  dispatch(resetReservationForm());
+                  window.location.href = el.href;
                   if (el.section) {
                     scrollTo(el.section);
                   }
                 }}
               >
                 {el.label}
-              </Link>
+              </p>
             </NavbarItem>
           ))}
           <NavbarItem className="text-white">

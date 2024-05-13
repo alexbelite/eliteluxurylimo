@@ -26,6 +26,7 @@ export const VehiclesData = [
     type: "sedan",
     passengers: 2,
     luggage: 3,
+    minHours: 2,
     isQuote: true,
   },
   {
@@ -34,6 +35,7 @@ export const VehiclesData = [
     type: "suv",
     passengers: 6,
     luggage: 6,
+    minHours: 2,
     isQuote: true,
   },
   {
@@ -42,6 +44,7 @@ export const VehiclesData = [
     type: "luxury_sedan",
     passengers: 2,
     luggage: 3,
+    minHours: 3,
     isQuote: true,
   },
   {
@@ -50,6 +53,16 @@ export const VehiclesData = [
     type: "van",
     passengers: 13,
     luggage: 13,
+    minHours: 3,
+    isQuote: true,
+  },
+  {
+    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=2679526",
+    name: "Black Lincoln MKT Stretch",
+    type: "limo",
+    passengers: 8,
+    luggage: 1,
+    minHours: 4,
     isQuote: true,
   },
   {
@@ -58,6 +71,7 @@ export const VehiclesData = [
     type: "minibus",
     passengers: 22,
     luggage: 22,
+    minHours: 5,
     isQuote: true,
   },
   {
@@ -66,14 +80,7 @@ export const VehiclesData = [
     type: "minibus",
     passengers: 28,
     luggage: 28,
-    isQuote: true,
-  },
-  {
-    image: "https://bookridesonline.com/Web/ImageHandler.ashx?id=2702915",
-    name: "28 Passenger Minibus",
-    type: "minibus",
-    passengers: 28,
-    luggage: 28,
+    minHours: 5,
     isQuote: true,
   },
   {
@@ -82,6 +89,7 @@ export const VehiclesData = [
     type: "minibus",
     passengers: 38,
     luggage: 38,
+    minHours: 5,
     isQuote: true,
   },
   {
@@ -90,6 +98,7 @@ export const VehiclesData = [
     type: "coach",
     passengers: 56,
     luggage: 56,
+    minHours: 5,
     isQuote: true,
   },
   {
@@ -98,9 +107,11 @@ export const VehiclesData = [
     type: "party_bus",
     passengers: 16,
     luggage: 0,
+    minHours: 4,
     isQuote: true,
   },
 ];
+
 export const vehicles: any[] = [
   {
     image:

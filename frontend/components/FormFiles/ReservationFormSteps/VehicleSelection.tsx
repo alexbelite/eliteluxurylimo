@@ -81,15 +81,16 @@ const VehicleSelection = ({
                     </p>
                   </>
                 )}
-                {service === "hourly_charter" && hours < 2 && (
+                {service === "hourly_charter" && (
                   <div className="flex ml-1 items-center">
-                    - <FiClock className="mx-2" /> Min Hrs : 2
+                    - <FiClock className="mx-2" /> Min Hrs : {vehicle.minHours}
                   </div>
                 )}
               </div>
-              {service === "hourly_charter" && hours < 2 ? (
+              {service === "hourly_charter" && hours < vehicle.minHours ? (
                 <p className="bg-yellow-400 text-white rounded-md p-1 text-xs mt-2">
-                  Pricing Reflects a minimum of 2 Hours to be booked
+                  Pricing Reflects a minimum of {vehicle.minHours} Hours to be
+                  booked
                 </p>
               ) : (
                 <>

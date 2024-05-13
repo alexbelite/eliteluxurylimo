@@ -11,7 +11,7 @@ import {
 } from "redux-persist";
 
 import { configureStore } from "@reduxjs/toolkit";
-import session from "redux-persist/lib/storage/session";
+import storage from "redux-persist/lib/storage";
 import googleMapSlice from "./googleMapSlice";
 import UserReducer from "@/store/userSlice";
 import ReservationFormReducer from "@/store/ReservationFormSlice";
@@ -24,7 +24,7 @@ const rootReducer = combineReducers({
 
 const persistConfig = {
   key: "root",
-  storage: session,
+  storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
