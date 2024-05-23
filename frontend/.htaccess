@@ -1,0 +1,11 @@
+ErrorDocument 404 /404
+
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !^/.*\.(js|ico|gif|jpg|png|css|webp|svg)$
+RewriteRule ^(.*)$ /_next/static/$1 [L]
+
+RewriteCond %{REQUEST_URI} !^/_next/.*
+RewriteCond %{REQUEST_URI} !^/_next/static/.*
+RewriteCond %{REQUEST_URI} !^/api/.*
+RewriteCond %{REQUEST_URI} !^/fonts/.*
+RewriteRule (.*) /_next/serverless/pages%{REQUEST_URI} [L]

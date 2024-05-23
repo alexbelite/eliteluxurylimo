@@ -34,7 +34,7 @@ export default function Blog() {
       description: `We offer charter services in order to afford you a way to explore in luxury many well-known beautiful and
         exciting locations throughout Chicagoland. Our clients travel in the ultimate comfort driven by our professional chauffeurs that
         have in-depth knowledge of all landmarks and exciting destinations you’re seeking to visit. If you wish to visit somewhere off the
-        beaten path it’s not an issue simply provide your chauffer with the details and address if available and they’ll be more than happy
+        beaten path it’s not an issue simply provide your chauffeur with the details and address if available and they’ll be more than happy
         to take you there.`,
     },
     {

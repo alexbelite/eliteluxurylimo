@@ -92,42 +92,28 @@ const VehicleSelection = ({
                   Pricing Reflects a minimum of {vehicle.minHours} Hours to be
                   booked
                 </p>
-              ) : (
+              ) : null}
+              {!vehicle.isQuote && price !== "quote" && (
+                <p className="my-3">{price}</p>
+              )}
+              {(vehicle.isQuote || price === "quote") && (
                 <>
-                  {!vehicle.isQuote && price !== "quote" && (
-                    <p className="my-3">{price}</p>
-                  )}
-                  {(vehicle.isQuote || price === "quote") && (
-                    <>
-                      {passengers > vehicle.passengers &&
-                      vehicle.type === "sedan" ? (
-                        <p className="my-3 text-sm font-semibold text-red-800">
-                          Please choose larger vehicle
-                        </p>
-                      ) : (
-                        <>
-                          <p className="my-3 text-md font-semibold text-slate-200">
-                            Request a quote
-                          </p>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setValue("vehicle", vehicle, {
-                                shouldDirty: true,
-                                shouldValidate: true,
-                              });
-                              handleNext();
-                            }}
-                            className="bg-yellow-600 w-1/2 p-1 mt-2 border-solid border-1 border-black"
-                          >
-                            {vehicle.isQuote || price === "quote"
-                              ? "Quote"
-                              : "Reserve"}
-                          </button>
-                        </>
-                      )}
-                    </>
-                  )}
+                  <p className="my-3 text-md font-semibold text-slate-200">
+                    Request a quote
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setValue("vehicle", vehicle, {
+                        shouldDirty: true,
+                        shouldValidate: true,
+                      });
+                      handleNext();
+                    }}
+                    className="bg-yellow-600 w-1/2 p-1 mt-2 border-solid border-1 border-black"
+                  >
+                    {vehicle.isQuote || price === "quote" ? "Quote" : "Reserve"}
+                  </button>
                 </>
               )}
             </Grid>

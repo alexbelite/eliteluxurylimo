@@ -352,6 +352,11 @@ export default function BookOnline() {
   }
 
   useEffect(() => {
+    if (!reservationFormData) {
+      dispatch(resetReservationForm());
+      setInitialRender(true);
+      setActiveStep(0);
+    }
     if (reservationFormData && initialRender) {
       for (const formValue in reservationFormData) {
         if (formValue === "step") {
@@ -365,7 +370,13 @@ export default function BookOnline() {
       }
     }
     setInitialRender(false);
-  }, [reservationFormData, setValue, initialRender]);
+  }, [
+    JSON.stringify(reservationFormData),
+    setValue,
+    initialRender,
+    dispatch,
+    reservationFormData,
+  ]);
 
   return (
     <section className="w-full flex items-center justify-center bg-white py-24 text-black">

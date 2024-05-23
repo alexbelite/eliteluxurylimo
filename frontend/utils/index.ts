@@ -244,3 +244,12 @@ export const Services = [
     label: "Hourly Charter",
   },
 ];
+
+export const routes = [
+  "/",
+  "/reservation/",
+  "/corporations/",
+  "/contact-us/",
+  "/privacy-policy/",
+  "/terms-conditions/",
+];

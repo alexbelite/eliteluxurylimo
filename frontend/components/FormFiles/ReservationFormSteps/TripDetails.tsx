@@ -248,7 +248,14 @@ const TripDetails = ({
                 render={({ field }) => (
                   <div className="flex flex-col">
                     <p className="font-bold mb-1">Hours</p>
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      MenuProps={{
+                        sx: {
+                          maxHeight: "300px",
+                        },
+                      }}
+                    >
                       {Array(57)
                         .fill(0)
                         .map((hour, i) => (
@@ -283,7 +290,6 @@ const TripDetails = ({
                       onChange={(search) => {
                         if (search) {
                           const places = search?.getPlaces();
-                          console.log(places[0]);
                           if (places.length > 0) {
                             setValue(
                               "pickUpAddress",
