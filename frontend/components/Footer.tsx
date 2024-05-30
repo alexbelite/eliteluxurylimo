@@ -5,6 +5,8 @@ import { AddressIcon, CellPhoneIcon, GmailIcon } from "./icons";
 import FooterIcons from "@/components/FooterIcon";
 import { usePathname } from "next/navigation";
 import { routes } from "@/utils";
+import CreditCardsIcon from "@/public/CreditCardIcons.png";
+import Image from "next/image";
 
 const navLinks = [
   {
@@ -46,8 +48,8 @@ export default function Footer() {
                   tradition of servitude. Our reputation has been built on
                   providing unparalleled luxury car service for the Chicago area
                   and suburbs. Discover the pinnacle of luxury car service where
-                  reliability, discretion, professionalism are provided with the
-                  VIP treatment you deserve.
+                  safety, reliability, discretion, and professionalism are
+                  provided with the VIP treatment you deserve.
                 </p>
               </div>
               <div className="w-full flex flex-col gap-3 justify-start items-start">
@@ -106,20 +108,27 @@ export default function Footer() {
               <p className=" text-small text-default-400">
                 &copy; 2024 Elite Luxury Limousine. All rights reserved.
               </p>
-              <div className="flex justify-start items-center gap-1">
-                <Link
-                  className="text-default-400 text-small"
-                  href="/privacy-policy"
-                >
-                  Privacy Policy
-                </Link>
-                <span>/</span>
-                <Link
-                  className="text-default-400 text-small"
-                  href="/terms-conditions"
-                >
-                  Terms & Conditions
-                </Link>
+              <div className="flex flex-col justify-start items-center gap-1">
+                <Image
+                  src={CreditCardsIcon}
+                  height={40}
+                  alt="All cards Accepted"
+                />
+                <div>
+                  <Link
+                    className="text-default-400 text-small"
+                    href="/privacy-policy"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <span className="mx-1">/</span>
+                  <Link
+                    className="text-default-400 text-small"
+                    href="/terms-conditions"
+                  >
+                    Terms & Conditions
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

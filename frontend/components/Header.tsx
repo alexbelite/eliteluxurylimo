@@ -71,9 +71,6 @@ export default function Header() {
               <Link
                 href="/"
                 className=" p-0 max-sm:w-full w-full h-full relative"
-                onClick={() => {
-                  dispatch(resetReservationForm());
-                }}
               >
                 <Image
                   className="object-contain w-full h-full select-none object-center"
@@ -95,7 +92,12 @@ export default function Header() {
                         : "text-gray/800 hover:backdrop-blur-md hover:bg-black/30"
                     } w-full p-1 my-1 text-white`}
                     onClick={() => {
-                      dispatch(resetReservationForm());
+                      if (
+                        el.href === "/reservation" &&
+                        pathname === "/reservation/"
+                      ) {
+                        window.location.reload();
+                      }
                       router.push(el.href);
                       if (el.section) {
                         scrollTo(el.section);
@@ -107,7 +109,9 @@ export default function Header() {
                   </p>
                 </NavbarMenuItem>
               ))}
-              <NavbarMenuItem className="text-white">
+              {/* User data & UI */}
+
+              {/* <NavbarMenuItem className="text-white">
                 {userData ? (
                   <Popover
                     isOpen={isMobileOpen}
@@ -154,7 +158,7 @@ export default function Header() {
                 ) : (
                   <LoginFormModal />
                 )}
-              </NavbarMenuItem>
+              </NavbarMenuItem> */}
             </NavbarMenu>
           )}
           <NavbarContent className="max-md:hidden" justify="start">
@@ -163,7 +167,12 @@ export default function Header() {
                 <p
                   className="text-white cursor-pointer"
                   onClick={() => {
-                    dispatch(resetReservationForm());
+                    if (
+                      el.href === "/reservation" &&
+                      pathname === "/reservation/"
+                    ) {
+                      window.location.reload();
+                    }
                     router.push(el.href);
                     if (el.section) {
                       scrollTo(el.section);
@@ -174,7 +183,9 @@ export default function Header() {
                 </p>
               </NavbarItem>
             ))}
-            <NavbarItem className="text-white">
+            {/* User data & UI */}
+
+            {/* <NavbarItem className="text-white">
               {userData ? (
                 <Popover
                   isOpen={isOpen}
@@ -218,15 +229,16 @@ export default function Header() {
               ) : (
                 <LoginFormModal />
               )}
-            </NavbarItem>
+            </NavbarItem> */}
           </NavbarContent>
-          {userData && editModal && (
+          {/* User data & UI */}
+          {/* {userData && editModal && (
             <EditProfileModal
               isOpen={editModal}
               onOpenChange={() => setEditModal(!editModal)}
               profile={userData}
             />
-          )}
+          )} */}
         </Navbar>
       ) : null}
     </>

@@ -2,7 +2,7 @@ import { NavlinksProps, AiportProps, ReviewProps } from "@/types";
 
 import image1 from "@/public/image_1.png";
 import image2 from "@/public/image_2.png";
-import image3 from "@/public/purplegirl.png";
+import image3 from "@/public/GuyInSuit.png";
 
 // Maps Library constants
 export const GOOGLE_MAPS_LIBRARIES: any = ["places"];

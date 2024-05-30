@@ -41,6 +41,13 @@ export default function CorporationsPage() {
               their transportation. Our fleet can accommodate any occasion
               whether the need is a sedan, SUV, to large busses.
             </p>
+            <p>
+              We look forward to you joining our family of corporate clients.
+              Our clients have come to know the word compromise doesn’t exist in
+              our corporate culture. Our management team and our professional
+              Chauffeurs all function in harmony in order to deliver
+              unparalleled service.
+            </p>
           </div>
           <div className="max-md:w-full max-sm:h-[300px] w-1/2 h-full relative">
             <Image

@@ -379,16 +379,16 @@ export default function BookOnline() {
   ]);
 
   return (
-    <section className="w-full flex items-center justify-center bg-white py-24 text-black">
-      <div className="md:w-[90%]">
+    <section className="w-full flex items-center justify-center bg-white pt-24 text-black">
+      <div className="md:w-[90%] h-fit">
         <p className="text-red-500">
           <span className="font-bold">Note : </span>
           To ensure you don’t miss our quotes, confirmations, or any other
           correspondence, please remember to check your spam/junk folders, as
           they may occasionally end up there.
         </p>
-        <div className="mt-20 border-[1px] w-full border-slate-300 border-solid p-4 rounded-md">
-          <div className="w-full flex items-center justify-between">
+        <div className="mt-10 w-full">
+          {/* <div className="w-full flex items-center justify-between">
             <div>
               <IconButton
                 aria-describedby={id}
@@ -435,7 +435,6 @@ export default function BookOnline() {
               />
             )}
           </div>
-
           <p className="mb-0 mt-4 text-lg">Reservations</p>
           <p className="italic text-sm">
             Book a trip or request a quote by filling out the form below.
@@ -465,7 +464,50 @@ export default function BookOnline() {
             >
               {getStepContent(activeStep)}
             </form>
-          </FormProvider>
+          </FormProvider> */}
+
+          <iframe
+            src="https://bookridesonline.com/book/?dbaid=9xkVsTVBmdyqeiZeeeqBXA%3d%3d"
+            className={`w-full min-h-[900px] 2xl:min-h-svh mb-12`}
+          />
+          {/* <div id="bro_reservation"></div>
+          <input
+            type="hidden"
+            id="cid"
+            value="V%2b%2fImDntqoJohdKiQ8UcWA%3d%3d"
+          />
+          <input
+            type="hidden"
+            id="dbaid"
+            value="9xkVsTVBmdyqeiZeeeqBXA%3d%3d"
+          />
+          <Script>
+            {(function () {
+              var po = document.createElement("script");
+              po.type = "text/javascript";
+              po.async = true;
+              po.src = "https://bookridesonline.com/web/reservation.js";
+              var s = document.getElementsByTagName("script")[0];
+              s.parentNode.insertBefore(po, s);
+            })()}
+          </Script> */}
+          {/* <BookingScript /> */}
+          {/* <Script
+            async
+            type="text/javascript"
+            id="reservation_script2"
+            src="https://bookridesonline.com/web/reservation.js"
+          /> */}
+          {/* <Script
+            async
+            defer
+            type="text/javascript"
+            id="reservation_script"
+            dangerouslySetInnerHTML={{
+              __html: ` (function () { var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = 'https://bookridesonline.com/web/reservation.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s); })();`,
+            }}
+            // strategy="afterInteractive"
+          /> */}
         </div>
       </div>
     </section>
