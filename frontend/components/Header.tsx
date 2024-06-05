@@ -1,13 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { FaUser } from "react-icons/fa";
 import {
   Navbar,
   NavbarMenu,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
   NavbarMenuToggle,
   NavbarMenuItem,
   Avatar,
@@ -29,6 +27,7 @@ import { getUser, resetUser } from "@/store/userSlice";
 import EditProfileModal from "./AccountMangement/EditProfileModal";
 import { MdEdit } from "react-icons/md";
 import { resetReservationForm } from "@/store/ReservationFormSlice";
+import Link from "next/link";
 
 export default function Header() {
   const router = useRouter();
@@ -85,7 +84,7 @@ export default function Header() {
             <NavbarMenu className="dark h-auto text-white py-3 backdrop-blur-sm bg-black/30">
               {navlinks.map((el) => (
                 <NavbarMenuItem key={el.id}>
-                  <p
+                  <Link
                     className={`cursor-pointer ${
                       pathname === el.href
                         ? "text-[#F5A524]"
@@ -98,15 +97,12 @@ export default function Header() {
                       ) {
                         window.location.reload();
                       }
-                      router.push(el.href);
-                      if (el.section) {
-                        scrollTo(el.section);
-                      }
                       toggleMenu();
                     }}
+                    href={el.href}
                   >
                     {el.label}
-                  </p>
+                  </Link>
                 </NavbarMenuItem>
               ))}
               {/* User data & UI */}
@@ -164,7 +160,7 @@ export default function Header() {
           <NavbarContent className="max-md:hidden" justify="start">
             {navlinks.map((el) => (
               <NavbarItem key={el.id} className="text-white">
-                <p
+                <Link
                   className="text-white cursor-pointer"
                   onClick={() => {
                     if (
@@ -173,14 +169,11 @@ export default function Header() {
                     ) {
                       window.location.reload();
                     }
-                    router.push(el.href);
-                    if (el.section) {
-                      scrollTo(el.section);
-                    }
                   }}
+                  href={el.href}
                 >
                   {el.label}
-                </p>
+                </Link>
               </NavbarItem>
             ))}
             {/* User data & UI */}

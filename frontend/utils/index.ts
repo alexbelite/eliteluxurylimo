@@ -10,7 +10,7 @@ export const GOOGLE_MAPS_LIBRARIES: any = ["places"];
 export const navlinks: NavlinksProps[] = [
   { id: 1, label: "Home", href: "/" },
   { id: 2, label: "Reservation", href: "/reservation" },
-  { id: 3, label: "Services", href: "/", section: "services" },
+  { id: 3, label: "Services", href: "/#services" },
   { id: 4, label: "Corporations", href: "/corporations" },
   { id: 5, label: "Contact Us", href: "/contact-us" },
 ];

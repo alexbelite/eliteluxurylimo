@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { routes } from "@/utils";
 import CreditCardsIcon from "@/public/CreditCardIcons.png";
 import Image from "next/image";
+import Logo from "@/public/LogoWhite.png";
 
 const navLinks = [
   {
@@ -35,9 +36,7 @@ export default function Footer() {
         <footer className="flex w-full flex-col bg-[#07020d]">
           <div className="container flex w-full max-w-7xl flex-col items-center justify-center px-6 gap-6 py-12 lg:px-8">
             <div className="flex items-center justify-center">
-              <h1 className="text-6xl  text-center font-baskerville rounded-full text-white">
-                Elite Luxury Limousine
-              </h1>
+              <Image src={Logo} height={150} alt="Elite Luxury Limousine" />
             </div>
             <div className="grid grid-cols-3 max-sm:grid-cols-1  grid-flow-row gap-6">
               <div className="w-full flex flex-col gap-3 justify-start items-start">
@@ -58,18 +57,20 @@ export default function Footer() {
                 </h6>
                 <ul className="flex flex-col gap-3">
                   <li>
-                    <Link href="#airport">Airport Transportation</Link>
+                    <Link href="/#airport">Airport Transportation</Link>
                   </li>
                   <li>
-                    <Link href="/corporations">Corporate Services</Link>
+                    <Link href="/#corporate">Corporate Services</Link>
                   </li>
                   <li>
-                    <Link href="#tours">Private Excursions & Tours</Link>
+                    <Link href="/#tours">Private Excursions & Tours</Link>
                   </li>
                   <li>
-                    <Link href="#events">Events and Special Occasions</Link>
+                    <Link href="/#events">Events and Special Occasions</Link>
                   </li>
-                  <li>Sporting Events & Concerts</li>
+                  <li>
+                    <Link href="/#events">Sporting Events & Concerts</Link>
+                  </li>
                 </ul>
               </div>
               <div className="w-full flex flex-col gap-3 justify-start items-start">
