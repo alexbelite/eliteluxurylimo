@@ -465,12 +465,7 @@ export default function BookOnline() {
               {getStepContent(activeStep)}
             </form>
           </FormProvider> */}
-
-          <iframe
-            src="https://bookridesonline.com/book/?dbaid=9xkVsTVBmdyqeiZeeeqBXA%3d%3d"
-            className={`w-full min-h-[900px] 2xl:min-h-svh mb-12`}
-          />
-          {/* <div id="bro_reservation"></div>
+          <div id="bro_reservation"></div>
           <input
             type="hidden"
             id="cid"
@@ -481,7 +476,7 @@ export default function BookOnline() {
             id="dbaid"
             value="9xkVsTVBmdyqeiZeeeqBXA%3d%3d"
           />
-          <Script>
+          <script>
             {(function () {
               var po = document.createElement("script");
               po.type = "text/javascript";
@@ -490,24 +485,7 @@ export default function BookOnline() {
               var s = document.getElementsByTagName("script")[0];
               s.parentNode.insertBefore(po, s);
             })()}
-          </Script> */}
-          {/* <BookingScript /> */}
-          {/* <Script
-            async
-            type="text/javascript"
-            id="reservation_script2"
-            src="https://bookridesonline.com/web/reservation.js"
-          /> */}
-          {/* <Script
-            async
-            defer
-            type="text/javascript"
-            id="reservation_script"
-            dangerouslySetInnerHTML={{
-              __html: ` (function () { var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = 'https://bookridesonline.com/web/reservation.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s); })();`,
-            }}
-            // strategy="afterInteractive"
-          /> */}
+          </script>
         </div>
       </div>
     </section>
