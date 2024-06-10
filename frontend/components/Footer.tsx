@@ -81,7 +81,7 @@ export default function Footer() {
                   className="underline flex justify-start gap-3 items-center"
                   href="tel:+18158147041"
                 >
-                  <CellPhoneIcon />1 (815) 814-7041
+                  <CellPhoneIcon />1 (312) 212-0587
                 </Link>
                 <Link
                   target="_blank"

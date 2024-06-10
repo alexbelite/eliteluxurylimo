@@ -8,7 +8,7 @@ import image3 from "@/public/GuyInSuit.png";
 export const GOOGLE_MAPS_LIBRARIES: any = ["places"];
 
 export const navlinks: NavlinksProps[] = [
-  { id: 1, label: "Home", href: "/" },
+  // { id: 1, label: "Home", href: "/" },
   { id: 2, label: "Reservation", href: "/reservation" },
   { id: 3, label: "Services", href: "/#services" },
   { id: 4, label: "Corporations", href: "/corporations" },
