@@ -27,7 +27,7 @@ export default function Home() {
               onClick={() => dispatch(resetReservationForm())}
               className="px-12 py-4 bg-[#afa581] font-semibold text-lg rounded-sm text-white"
             >
-              Make a Reservation
+              Book Online
             </Link>
           </div>
         </div>
